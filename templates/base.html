@@ -70,34 +70,33 @@
                 aria-label="Hauptnavigation"
             >
 
-                <a
-                    href="{% url 'dashboard:index' %}"
-                    class="
-                        block
-                        rounded-lg
-                        bg-blue-600
-                        px-4
-                        py-3
-                        text-sm
-                        font-medium
-                        text-white
-                    "
-                >
-                    Dashboard
-                </a>
+            <a
+                href="{% url 'dashboard:index' %}"
+                class="
+                    block rounded-lg px-4 py-3 text-sm font-medium transition
+                    {% if request.resolver_match.namespace == 'dashboard' %}
+                        bg-blue-600 text-white
+                    {% else %}
+                        text-slate-300 hover:bg-slate-800 hover:text-white
+                    {% endif %}
+                "
+            >
+                Dashboard
+            </a>
 
-                <span
+                <a
+                    href="{% url 'jobs:list' %}"
                     class="
-                        block
-                        rounded-lg
-                        px-4
-                        py-3
-                        text-sm
-                        text-slate-400
+                        block rounded-lg px-4 py-3 text-sm font-medium transition
+                        {% if request.resolver_match.namespace == 'jobs' %}
+                            bg-blue-600 text-white
+                        {% else %}
+                            text-slate-300 hover:bg-slate-800 hover:text-white
+                        {% endif %}
                     "
                 >
                     Stellenangebote
-                </span>
+                </a>
 
                 <span
                     class="
