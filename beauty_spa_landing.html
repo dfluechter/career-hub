@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ÉLYSIA Sanctuary | Luxury Botanical Spa & Wellness</title>
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Cormorant Garamond & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            sand: {
+              50: '#FAF8F5',
+              100: '#F4EFEA',
+              200: '#E7DDD3',
+              300: '#D5C4B4',
+              400: '#BC9F86',
+              500: '#9E7E63',
+              900: '#2A2421',
+            },
+            sage: {
+              50: '#F4F6F4',
+              100: '#E3E8E3',
+              200: '#C7D2C7',
+              600: '#5F7464',
+              800: '#39463C',
+              900: '#232B25',
+            },
+            gold: {
+              400: '#D4AF37',
+              500: '#C59B27',
+              600: '#AA821A',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom scrollbar and subtle blur glass */
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FAF8F5;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D5C4B4;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #BC9F86;
+    }
+    .glass-nav {
+      background: rgba(250, 248, 245, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .gold-shimmer {
+      background: linear-gradient(135deg, #FAF8F5 0%, #F4EFEA 50%, #FAF8F5 100%);
+    }
+  </style>
+</head>
+<body class="bg-sand-50 text-sand-900 font-sans antialiased selection:bg-sand-200 selection:text-sand-900">
+
+  <!-- Top Announcement Bar -->
+  <div class="bg-sage-900 text-sand-100 text-xs py-2 px-4 text-center tracking-widest uppercase font-medium flex items-center justify-center gap-2">
+    <span class="inline-block w-2 h-2 rounded-full bg-gold-400 animate-pulse"></span>
+    <span>Spring Renewal Offering: Complimentary Herbal Sound Bath with every 90-min Signature Ritual</span>
+    <a href="#treatments" class="underline underline-offset-2 ml-2 hover:text-gold-400 transition-colors">Discover</a>
+  </div>
+
+  <!-- Header / Navigation -->
+  <header class="sticky top-0 z-40 glass-nav border-b border-sand-200/60 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
+      
+      <!-- Logo -->
+      <a href="#" class="flex flex-col items-start group">
+        <span class="font-serif text-2xl lg:text-3xl tracking-[0.25em] font-medium text-sand-900 group-hover:text-sand-500 transition-colors uppercase">
+          Élysia
+        </span>
+        <span class="text-[9px] uppercase tracking-[0.35em] text-sand-400 font-semibold -mt-1">
+          Botanical Spa & Wellness
+        </span>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden md:flex items-center gap-8 text-xs font-semibold tracking-widest uppercase text-sand-900/80">
+        <a href="#rituals" class="hover:text-sand-500 transition-colors">Philosophy</a>
+        <a href="#treatments" class="hover:text-sand-500 transition-colors">Treatments</a>
+        <a href="#aroma" class="hover:text-sand-500 transition-colors">Sensory Finder</a>
+        <a href="#ambience" class="hover:text-sand-500 transition-colors">Sanctuary</a>
+        <a href="#testimonials" class="hover:text-sand-500 transition-colors">Testimonials</a>
+      </nav>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-4">
+        <button onclick="openBooking('Signature Botanical Facial', '$180')" class="relative inline-flex items-center justify-center px-6 py-2.5 text-xs font-semibold tracking-widest uppercase text-sand-50 bg-sand-900 hover:bg-sand-500 transition-all duration-300 rounded-full shadow-sm hover:shadow-md">
+          <span>Book Ritual</span>
+          <i data-lucide="arrow-right" class="w-3.5 h-3.5 ml-2"></i>
+        </button>
+
+        <!-- Mobile Menu Trigger -->
+        <button id="mobileMenuBtn" class="md:hidden text-sand-900 p-2 focus:outline-none" aria-label="Toggle Menu">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown -->
+    <div id="mobileMenu" class="hidden md:hidden bg-sand-50 border-b border-sand-200 px-6 py-6 space-y-4 text-xs font-semibold tracking-widest uppercase">
+      <a href="#rituals" class="block py-2 text-sand-900 hover:text-sand-500" onclick="toggleMenu()">Philosophy</a>
+      <a href="#treatments" class="block py-2 text-sand-900 hover:text-sand-500" onclick="toggleMenu()">Treatments</a>
+      <a href="#aroma" class="block py-2 text-sand-900 hover:text-sand-500" onclick="toggleMenu()">Sensory Finder</a>
+      <a href="#ambience" class="block py-2 text-sand-900 hover:text-sand-500" onclick="toggleMenu()">Sanctuary</a>
+      <a href="#testimonials" class="block py-2 text-sand-900 hover:text-sand-500" onclick="toggleMenu()">Testimonials</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative min-h-[88vh] flex items-center justify-center overflow-hidden py-20 lg:py-28">
+    <!-- Atmospheric Background Elements -->
+    <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sand-100 via-sand-50 to-sand-50"></div>
+    <div class="absolute -top-32 right-10 w-96 h-96 bg-sand-200/40 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-20 left-10 w-80 h-80 bg-sage-100/50 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+      
+      <!-- Hero Text Column (7 cols) -->
+      <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-sand-300/80 bg-white/60 text-sand-500 text-[11px] font-semibold tracking-widest uppercase">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-gold-500"></i>
+          <span>Voted Top Holistic Spa Retreat 2025</span>
+        </div>
+
+        <h1 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-normal leading-[1.08] text-sand-900 tracking-tight">
+          Where stillness restores your <span class="italic font-light text-sand-500">radiance</span>.
+        </h1>
+
+        <p class="text-sand-900/70 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
+          Escape the pulse of daily life into an immersive sanctuary of warm stones, therapeutic botanical alchemy, and deeply restorative hydrothermal therapy.
+        </p>
+
+        <!-- CTA Cluster -->
+        <div class="pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+          <button onclick="openBooking('Elysia Grand Ceremony', '$240')" class="w-full sm:w-auto px-8 py-4 bg-sand-900 text-sand-50 rounded-full text-xs font-semibold tracking-widest uppercase hover:bg-sand-500 hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-3">
+            <span>Reserve Your Sanctuary</span>
+            <i data-lucide="calendar" class="w-4 h-4"></i>
+          </button>
+          
+          <a href="#treatments" class="w-full sm:w-auto px-8 py-4 border border-sand-300 rounded-full text-xs font-semibold tracking-widest uppercase text-sand-900 hover:bg-white/80 transition-all duration-300 text-center">
+            View Menu of Rituals
+          </a>
+        </div>
+
+        <!-- Trust Metrics -->
+        <div class="pt-8 border-t border-sand-200/80 grid grid-cols-3 gap-6 max-w-lg mx-auto lg:mx-0">
+          <div>
+            <p class="font-serif text-3xl font-normal text-sand-900">100%</p>
+            <p class="text-[11px] uppercase tracking-wider text-sand-400 font-medium">Organic Botanical Extracts</p>
+          </div>
+          <div>
+            <p class="font-serif text-3xl font-normal text-sand-900">4.98★</p>
+            <p class="text-[11px] uppercase tracking-wider text-sand-400 font-medium">Over 1,200 Reviews</p>
+          </div>
+          <div>
+            <p class="font-serif text-3xl font-normal text-sand-900">Private</p>
+            <p class="text-[11px] uppercase tracking-wider text-sand-400 font-medium">Individual Suites & Baths</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Imagery Column (5 cols) -->
+      <div class="lg:col-span-5 relative">
+        <div class="relative mx-auto max-w-md lg:max-w-none">
+          <!-- Main Archetype Image -->
+          <div class="relative z-10 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/80 aspect-[4/5] group">
+            <img 
+              src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=900&q=80" 
+              alt="Relaxing Spa Atmosphere" 
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-sand-900/40 via-transparent to-transparent"></div>
+            
+            <div class="absolute bottom-6 left-6 right-6 p-4 rounded-xl bg-white/90 backdrop-blur-md border border-white/40 shadow-lg">
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="text-[10px] uppercase tracking-widest text-sand-400 font-bold">Featured Ceremony</span>
+                  <h4 class="font-serif text-lg font-medium text-sand-900">Cellular Rose & Silk Wrap</h4>
+                </div>
+                <span class="font-serif text-xl font-semibold text-sand-500">$210</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Secondary Floating Visual Accent -->
+          <div class="hidden sm:block absolute -top-8 -left-8 z-20 w-36 h-36 rounded-2xl overflow-hidden shadow-xl border-2 border-white">
+            <img 
+              src="https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?auto=format&fit=crop&w=400&q=80" 
+              alt="Aromatherapy massage oils" 
+              class="w-full h-full object-cover"
+            />
+          </div>
+
+          <div class="hidden sm:flex absolute -bottom-6 -right-6 z-20 bg-sage-900 text-sand-50 p-4 rounded-xl shadow-xl items-center gap-3 max-w-[210px]">
+            <i data-lucide="shield-check" class="w-6 h-6 text-gold-400 flex-shrink-0"></i>
+            <p class="text-[11px] leading-tight font-light">Certified Ayurvedic & Hydro-Therapy Practitioners</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- The 4 Pillars / Philosophy Section -->
+  <section id="rituals" class="py-24 bg-white border-y border-sand-200/60">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
+        <span class="text-xs uppercase tracking-[0.25em] text-sand-500 font-bold">The Élysia Philosophy</span>
+        <h2 class="font-serif text-3xl sm:text-5xl font-normal text-sand-900">Conscious Luxury & Natural Harmony</h2>
+        <p class="text-sand-900/60 text-sm sm:text-base leading-relaxed">
+          Every ritual is intuitively calibrated to restore cellular vitality, calm an overstimulated nervous system, and awaken deep interior glow.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        
+        <!-- Pillar 1 -->
+        <div class="p-8 rounded-2xl bg-sand-50/70 border border-sand-200/60 hover:border-sand-300 transition-all hover:-translate-y-1 group">
+          <div class="w-12 h-12 rounded-full bg-sand-200/60 text-sand-900 flex items-center justify-center mb-6 group-hover:bg-sand-900 group-hover:text-sand-50 transition-colors">
+            <i data-lucide="flower-2" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-serif text-xl font-medium text-sand-900 mb-2">Wildcrafted Botanicals</h3>
+          <p class="text-xs sm:text-sm text-sand-900/70 leading-relaxed">
+            Cold-pressed organic seed oils, mountain chamomile, and biodynamic floral hydrosols picked at sunrise.
+          </p>
+        </div>
+
+        <!-- Pillar 2 -->
+        <div class="p-8 rounded-2xl bg-sand-50/70 border border-sand-200/60 hover:border-sand-300 transition-all hover:-translate-y-1 group">
+          <div class="w-12 h-12 rounded-full bg-sand-200/60 text-sand-900 flex items-center justify-center mb-6 group-hover:bg-sand-900 group-hover:text-sand-50 transition-colors">
+            <i data-lucide="waves" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-serif text-xl font-medium text-sand-900 mb-2">Thermal Mineral Springs</h3>
+          <p class="text-xs sm:text-sm text-sand-900/70 leading-relaxed">
+            Magnesium-infused hot pools and Finnish cedar steam chambers engineered to release muscular tension.
+          </p>
+        </div>
+
+        <!-- Pillar 3 -->
+        <div class="p-8 rounded-2xl bg-sand-50/70 border border-sand-200/60 hover:border-sand-300 transition-all hover:-translate-y-1 group">
+          <div class="w-12 h-12 rounded-full bg-sand-200/60 text-sand-900 flex items-center justify-center mb-6 group-hover:bg-sand-900 group-hover:text-sand-50 transition-colors">
+            <i data-lucide="moon" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-serif text-xl font-medium text-sand-900 mb-2">Acoustic Sound Bath</h3>
+          <p class="text-xs sm:text-sm text-sand-900/70 leading-relaxed">
+            432Hz crystal alchemy singing bowls resonating throughout treatments to guide brainwaves into theta meditation.
+          </p>
+        </div>
+
+        <!-- Pillar 4 -->
+        <div class="p-8 rounded-2xl bg-sand-50/70 border border-sand-200/60 hover:border-sand-300 transition-all hover:-translate-y-1 group">
+          <div class="w-12 h-12 rounded-full bg-sand-200/60 text-sand-900 flex items-center justify-center mb-6 group-hover:bg-sand-900 group-hover:text-sand-50 transition-colors">
+            <i data-lucide="gem" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-serif text-xl font-medium text-sand-900 mb-2">Precious Stone Therapy</h3>
+          <p class="text-xs sm:text-sm text-sand-900/70 leading-relaxed">
+            Sculpting with chilled jade, raw rose quartz, and heated volcanic basalt to drain lymph and revitalize skin.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Treatments Menu Section with Filter Tabs -->
+  <section id="treatments" class="py-24 bg-sand-50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+        <div class="space-y-3">
+          <span class="text-xs uppercase tracking-[0.25em] text-sand-500 font-bold">Curated Menu</span>
+          <h2 class="font-serif text-3xl sm:text-5xl font-normal text-sand-900">Signature Ceremonies & Treatments</h2>
+        </div>
+        
+        <!-- Filter Tabs -->
+        <div class="flex flex-wrap gap-2 mt-6 md:mt-0 bg-sand-200/50 p-1.5 rounded-full text-xs font-semibold tracking-wider uppercase">
+          <button onclick="filterTreatments('all')" class="treatment-tab active px-5 py-2 rounded-full bg-sand-900 text-sand-50 transition-all">All</button>
+          <button onclick="filterTreatments('facial')" class="treatment-tab px-5 py-2 rounded-full text-sand-900 hover:text-sand-500 transition-all">Facials</button>
+          <button onclick="filterTreatments('body')" class="treatment-tab px-5 py-2 rounded-full text-sand-900 hover:text-sand-500 transition-all">Body & Massage</button>
+          <button onclick="filterTreatments('hydro')" class="treatment-tab px-5 py-2 rounded-full text-sand-900 hover:text-sand-500 transition-all">Hydro & Sauna</button>
+        </div>
+      </div>
+
+      <!-- Treatments Grid -->
+      <div id="treatmentsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <!-- Card 1 (Facial) -->
+        <div class="treatment-card bg-white rounded-2xl overflow-hidden border border-sand-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between" data-category="facial">
+          <div>
+            <div class="relative h-60 overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=700&q=80" alt="Rose Quartz Glow Facial" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+              <span class="absolute top-4 right-4 bg-white/90 backdrop-blur-md text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full text-sand-900">75 Mins</span>
+            </div>
+            <div class="p-6">
+              <div class="flex justify-between items-baseline mb-2">
+                <h3 class="font-serif text-2xl font-medium text-sand-900">Rose Quartz Luminous Facial</h3>
+                <span class="font-serif text-xl font-semibold text-sand-500">$185</span>
+              </div>
+              <p class="text-xs text-sand-400 uppercase tracking-wider mb-3">Damask Rose • Hyaluronic Nectar • Gua Sha</p>
+              <p class="text-sm text-sand-900/70 leading-relaxed mb-4">
+                Deep ultrasonic cleansing, followed by lymphatic sculpting with chilled rose quartz stones and an oxygenating cellular mask.
+              </p>
+            </div>
+          </div>
+          <div class="px-6 pb-6 pt-2 border-t border-sand-100 flex items-center justify-between">
+            <span class="text-xs text-sand-500 font-medium flex items-center gap-1">
+              <i data-lucide="check" class="w-3.5 h-3.5"></i> Includes Scalp Acupressure
+            </span>
+            <button onclick="openBooking('Rose Quartz Luminous Facial', '$185')" class="px-4 py-2 bg-sand-100 hover:bg-sand-900 hover:text-sand-50 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors">
+              Reserve
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 2 (Body) -->
+        <div class="treatment-card bg-white rounded-2xl overflow-hidden border border-sand-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between" data-category="body">
+          <div>
+            <div class="relative h-60 overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=700&q=80" alt="Hot Stone Volcanic Massage" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+              <span class="absolute top-4 right-4 bg-white/90 backdrop-blur-md text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full text-sand-900">90 Mins</span>
+            </div>
+            <div class="p-6">
+              <div class="flex justify-between items-baseline mb-2">
+                <h3 class="font-serif text-2xl font-medium text-sand-900">Basalt Stone & Cedar Melt</h3>
+                <span class="font-serif text-xl font-semibold text-sand-500">$215</span>
+              </div>
+              <p class="text-xs text-sand-400 uppercase tracking-wider mb-3">Wild Hinoki • Smoked Amber • Hot Basalt</p>
+              <p class="text-sm text-sand-900/70 leading-relaxed mb-4">
+                Polished volcanic stones radiating therapeutic heat into deep muscle layers, paired with grounding organic wood essential oils.
+              </p>
+            </div>
+          </div>
+          <div class="px-6 pb-6 pt-2 border-t border-sand-100 flex items-center justify-between">
+            <span class="text-xs text-sand-500 font-medium flex items-center gap-1">
+              <i data-lucide="check" class="w-3.5 h-3.5"></i> Full Body Unwinding
+            </span>
+            <button onclick="openBooking('Basalt Stone & Cedar Melt', '$215')" class="px-4 py-2 bg-sand-100 hover:bg-sand-900 hover:text-sand-50 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors">
+              Reserve
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 3 (Hydro) -->
+        <div class="treatment-card bg-white rounded-2xl overflow-hidden border border-sand-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between" data-category="hydro">
+          <div>
+            <div class="relative h-60 overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=700&q=80" alt="Thermal Hydro Bath" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+              <span class="absolute top-4 right-4 bg-white/90 backdrop-blur-md text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full text-sand-900">60 Mins</span>
+            </div>
+            <div class="p-6">
+              <div class="flex justify-between items-baseline mb-2">
+                <h3 class="font-serif text-2xl font-medium text-sand-900">Dead Sea Magnesium Soak</h3>
+                <span class="font-serif text-xl font-semibold text-sand-500">$140</span>
+              </div>
+              <p class="text-xs text-sand-400 uppercase tracking-wider mb-3">Pure Magnesium • Blue Lotus • Bergamot</p>
+              <p class="text-sm text-sand-900/70 leading-relaxed mb-4">
+                Private copper soaking tub filled with high-salinity minerals to soothe inflammation, reduce cortisol, and prime for deep restorative sleep.
+              </p>
+            </div>
+          </div>
+          <div class="px-6 pb-6 pt-2 border-t border-sand-100 flex items-center justify-between">
+            <span class="text-xs text-sand-500 font-medium flex items-center gap-1">
+              <i data-lucide="check" class="w-3.5 h-3.5"></i> Private Sanctuary Suite
+            </span>
+            <button onclick="openBooking('Dead Sea Magnesium Soak', '$140')" class="px-4 py-2 bg-sand-100 hover:bg-sand-900 hover:text-sand-50 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors">
+              Reserve
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 4 (Facial) -->
+        <div class="treatment-card bg-white rounded-2xl overflow-hidden border border-sand-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between" data-category="facial">
+          <div>
+            <div class="relative h-60 overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1512290900672-1f4864c3c3a4?auto=format&fit=crop&w=700&q=80" alt="Gold Peptide Lift Facial" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+              <span class="absolute top-4 right-4 bg-white/90 backdrop-blur-md text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full text-sand-900">90 Mins</span>
+            </div>
+            <div class="p-6">
+              <div class="flex justify-between items-baseline mb-2">
+                <h3 class="font-serif text-2xl font-medium text-sand-900">24K Gold Cellular Lift</h3>
+                <span class="font-serif text-xl font-semibold text-sand-500">$260</span>
+              </div>
+              <p class="text-xs text-sand-400 uppercase tracking-wider mb-3">Bio-Peptides • 24K Leaf • Red Light Infusion</p>
+              <p class="text-sm text-sand-900/70 leading-relaxed mb-4">
+                Clinical precision meets opulent ritual. Microcurrent lifting accompanied by pure gold leaf mask that visibly firms and rejuvenates collagen.
+              </p>
+            </div>
+          </div>
+          <div class="px-6 pb-6 pt-2 border-t border-sand-100 flex items-center justify-between">
+            <span class="text-xs text-sand-500 font-medium flex items-center gap-1">
+              <i data-lucide="check" class="w-3.5 h-3.5"></i> Red Light Therapy Included
+            </span>
+            <button onclick="openBooking('24K Gold Cellular Lift', '$260')" class="px-4 py-2 bg-sand-100 hover:bg-sand-900 hover:text-sand-50 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors">
+              Reserve
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 5 (Body) -->
+        <div class="treatment-card bg-white rounded-2xl overflow-hidden border border-sand-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between" data-category="body">
+          <div>
+            <div class="relative h-60 overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=700&q=80" alt="Ayurvedic Abhyanga Massage" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+              <span class="absolute top-4 right-4 bg-white/90 backdrop-blur-md text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full text-sand-900">80 Mins</span>
+            </div>
+            <div class="p-6">
+              <div class="flex justify-between items-baseline mb-2">
+                <h3 class="font-serif text-2xl font-medium text-sand-900">Ayurvedic Warm Herb Abhyanga</h3>
+                <span class="font-serif text-xl font-semibold text-sand-500">$195</span>
+              </div>
+              <p class="text-xs text-sand-400 uppercase tracking-wider mb-3">Warm Sesame • Ashwagandha • Marma Point</p>
+              <p class="text-sm text-sand-900/70 leading-relaxed mb-4">
+                Rhythmic, continuous strokes with customized herbalized warm oils designed to balance your dosha and awaken prana flow.
+              </p>
+            </div>
+          </div>
+          <div class="px-6 pb-6 pt-2 border-t border-sand-100 flex items-center justify-between">
+            <span class="text-xs text-sand-500 font-medium flex items-center gap-1">
+              <i data-lucide="check" class="w-3.5 h-3.5"></i> Custom Dosha Blend
+            </span>
+            <button onclick="openBooking('Ayurvedic Warm Herb Abhyanga', '$195')" class="px-4 py-2 bg-sand-100 hover:bg-sand-900 hover:text-sand-50 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors">
+              Reserve
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 6 (Hydro) -->
+        <div class="treatment-card bg-white rounded-2xl overflow-hidden border border-sand-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between" data-category="hydro">
+          <div>
+            <div class="relative h-60 overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1583416750470-965b2707b355?auto=format&fit=crop&w=700&q=80" alt="Nordic Sauna & Contrast Pool" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+              <span class="absolute top-4 right-4 bg-white/90 backdrop-blur-md text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full text-sand-900">120 Mins</span>
+            </div>
+            <div class="p-6">
+              <div class="flex justify-between items-baseline mb-2">
+                <h3 class="font-serif text-2xl font-medium text-sand-900">Nordic Thermal Contrast Circuit</h3>
+                <span class="font-serif text-xl font-semibold text-sand-500">$165</span>
+              </div>
+              <p class="text-xs text-sand-400 uppercase tracking-wider mb-3">Dry Pine Sauna • Eucalyptus Steam • Cold Plunge</p>
+              <p class="text-sm text-sand-900/70 leading-relaxed mb-4">
+                Guided contrast therapy alternating between 90°C Finnish sauna, ice shower waterfall, and warm herbal relaxation mezzanine.
+              </p>
+            </div>
+          </div>
+          <div class="px-6 pb-6 pt-2 border-t border-sand-100 flex items-center justify-between">
+            <span class="text-xs text-sand-500 font-medium flex items-center gap-1">
+              <i data-lucide="check" class="w-3.5 h-3.5"></i> Fresh Botanical Infusions
+            </span>
+            <button onclick="openBooking('Nordic Thermal Contrast Circuit', '$165')" class="px-4 py-2 bg-sand-100 hover:bg-sand-900 hover:text-sand-50 rounded-full text-xs font-semibold tracking-wider uppercase transition-colors">
+              Reserve
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Interactive Sensory / Aroma Profiler Widget -->
+  <section id="aroma" class="py-20 bg-sage-900 text-sand-100 relative overflow-hidden">
+    <div class="max-w-5xl mx-auto px-6 lg:px-12 relative z-10">
+      
+      <div class="text-center max-w-xl mx-auto mb-12">
+        <span class="text-xs uppercase tracking-[0.25em] text-gold-400 font-bold">Interactive Experience</span>
+        <h2 class="font-serif text-3xl sm:text-4xl font-normal text-white mt-2">What does your body need today?</h2>
+        <p class="text-sand-200/70 text-xs sm:text-sm mt-2">
+          Select your desired state and let our botanists recommend your optimal ritual.
+        </p>
+      </div>
+
+      <!-- State Selector Buttons -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
+        <button onclick="selectState('calm')" class="state-btn p-4 rounded-xl border border-sage-600 bg-sage-800/60 hover:bg-sage-800 transition-all text-center flex flex-col items-center gap-2 group active-state">
+          <i data-lucide="cloud-rain" class="w-6 h-6 text-gold-400"></i>
+          <span class="text-xs font-semibold tracking-wider uppercase text-sand-100">Deep Calm</span>
+          <span class="text-[10px] text-sand-300/60">Soothe anxiety & stress</span>
+        </button>
+
+        <button onclick="selectState('vitality')" class="state-btn p-4 rounded-xl border border-sage-600 bg-sage-800/60 hover:bg-sage-800 transition-all text-center flex flex-col items-center gap-2 group">
+          <i data-lucide="sun" class="w-6 h-6 text-gold-400"></i>
+          <span class="text-xs font-semibold tracking-wider uppercase text-sand-100">Vitality</span>
+          <span class="text-[10px] text-sand-300/60">Awaken sluggish energy</span>
+        </button>
+
+        <button onclick="selectState('detox')" class="state-btn p-4 rounded-xl border border-sage-600 bg-sage-800/60 hover:bg-sage-800 transition-all text-center flex flex-col items-center gap-2 group">
+          <i data-lucide="droplet" class="w-6 h-6 text-gold-400"></i>
+          <span class="text-xs font-semibold tracking-wider uppercase text-sand-100">Detox & Drain</span>
+          <span class="text-[10px] text-sand-300/60">Flush fluid & stiffness</span>
+        </button>
+
+        <button onclick="selectState('glow')" class="state-btn p-4 rounded-xl border border-sage-600 bg-sage-800/60 hover:bg-sage-800 transition-all text-center flex flex-col items-center gap-2 group">
+          <i data-lucide="sparkle" class="w-6 h-6 text-gold-400"></i>
+          <span class="text-xs font-semibold tracking-wider uppercase text-sand-100">Glow & Radiance</span>
+          <span class="text-[10px] text-sand-300/60">Dull, dehydrated skin</span>
+        </button>
+      </div>
+
+      <!-- Recommendation Dynamic Result Box -->
+      <div id="recommendationBox" class="p-8 rounded-2xl bg-sage-800/90 border border-gold-400/30 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div class="space-y-2 text-center sm:text-left">
+          <span class="text-[10px] uppercase tracking-widest text-gold-400 font-bold">Recommended Botanical Pairing</span>
+          <h3 id="recTitle" class="font-serif text-2xl text-white">Lavender Blossom & Frankincense Cocoon</h3>
+          <p id="recDesc" class="text-xs text-sand-200/80 max-w-xl">
+            A 90-minute treatment combining warm sweet almond oil, wild organic French lavender, and gentle acupressure to down-regulate your autonomic nervous system.
+          </p>
+        </div>
+        <button id="recBookBtn" onclick="openBooking('Lavender Blossom & Frankincense Cocoon', '$205')" class="whitespace-nowrap px-6 py-3 bg-gold-400 hover:bg-gold-500 text-sand-900 rounded-full text-xs font-bold tracking-widest uppercase transition-all shadow-md">
+          Book This Ritual
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Visual Sanctuary Bento Grid -->
+  <section id="ambience" class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      
+      <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
+        <span class="text-xs uppercase tracking-[0.25em] text-sand-500 font-bold">The Space</span>
+        <h2 class="font-serif text-3xl sm:text-5xl font-normal text-sand-900">An Oasis of Uninterrupted Peace</h2>
+        <p class="text-sand-900/60 text-sm sm:text-base leading-relaxed">
+          Crafted from natural travertine stone, untreated cedar wood, and soothing water architecture.
+        </p>
+      </div>
+
+      <!-- Bento Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[280px]">
+        
+        <!-- Large Item 1 -->
+        <div class="md:col-span-2 relative rounded-2xl overflow-hidden group">
+          <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1200&q=80" alt="Treatment Suite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-sand-900/80 via-transparent to-transparent"></div>
+          <div class="absolute bottom-6 left-6 text-white">
+            <span class="text-xs uppercase tracking-widest text-sand-300">Quietude</span>
+            <h4 class="font-serif text-2xl font-medium">Private Couple & Solitary Suites</h4>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="relative rounded-2xl overflow-hidden group">
+          <img src="https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=600&q=80" alt="Herbal Tea Lounge" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-sand-900/80 via-transparent to-transparent"></div>
+          <div class="absolute bottom-6 left-6 text-white">
+            <span class="text-xs uppercase tracking-widest text-sand-300">Nourishment</span>
+            <h4 class="font-serif text-2xl font-medium">Artisanal Botanical Tea Bar</h4>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="relative rounded-2xl overflow-hidden group">
+          <img src="https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=600&q=80" alt="Hydro Bath" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-sand-900/80 via-transparent to-transparent"></div>
+          <div class="absolute bottom-6 left-6 text-white">
+            <span class="text-xs uppercase tracking-widest text-sand-300">Therapy</span>
+            <h4 class="font-serif text-2xl font-medium">Warm Magnesium Plunge</h4>
+          </div>
+        </div>
+
+        <!-- Large Item 4 -->
+        <div class="md:col-span-2 relative rounded-2xl overflow-hidden group">
+          <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=1200&q=80" alt="Sauna" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-sand-900/80 via-transparent to-transparent"></div>
+          <div class="absolute bottom-6 left-6 text-white">
+            <span class="text-xs uppercase tracking-widest text-sand-300">Purification</span>
+            <h4 class="font-serif text-2xl font-medium">Finnish Cedar & Infrared Chamber</h4>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Client Testimonials Section -->
+  <section id="testimonials" class="py-24 bg-sand-100/50 border-t border-sand-200">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      
+      <div class="text-center max-w-xl mx-auto mb-16 space-y-3">
+        <span class="text-xs uppercase tracking-[0.25em] text-sand-500 font-bold">Client Reflections</span>
+        <h2 class="font-serif text-3xl sm:text-5xl font-normal text-sand-900">Words from the Sanctuary</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Review 1 -->
+        <div class="p-8 rounded-2xl bg-white border border-sand-200 shadow-sm flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="flex text-gold-500 gap-1">
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            </div>
+            <p class="font-serif text-lg italic text-sand-900/90 leading-snug">
+              "The Basalt Stone Melt completely transformed my chronic shoulder tension. The sound bowls at the beginning brought me to tears in the best way imaginable."
+            </p>
+          </div>
+          <div class="pt-6 border-t border-sand-100 flex items-center gap-3 mt-6">
+            <div class="w-10 h-10 rounded-full bg-sand-200 flex items-center justify-center font-serif font-bold text-sand-900">
+              EC
+            </div>
+            <div>
+              <p class="text-xs font-bold text-sand-900 uppercase tracking-wider">Eleanor C.</p>
+              <p class="text-[11px] text-sand-400">Architect & Regular Guest</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="p-8 rounded-2xl bg-white border border-sand-200 shadow-sm flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="flex text-gold-500 gap-1">
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            </div>
+            <p class="font-serif text-lg italic text-sand-900/90 leading-snug">
+              "My skin has never looked so glassy and calm. The 24K Gold Lift is worth every single dollar. An absolute masterpiece of aesthetic care."
+            </p>
+          </div>
+          <div class="pt-6 border-t border-sand-100 flex items-center gap-3 mt-6">
+            <div class="w-10 h-10 rounded-full bg-sand-200 flex items-center justify-center font-serif font-bold text-sand-900">
+              MS
+            </div>
+            <div>
+              <p class="text-xs font-bold text-sand-900 uppercase tracking-wider">Marcella S.</p>
+              <p class="text-[11px] text-sand-400">Creative Director</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 3 -->
+        <div class="p-8 rounded-2xl bg-white border border-sand-200 shadow-sm flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="flex text-gold-500 gap-1">
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            </div>
+            <p class="font-serif text-lg italic text-sand-900/90 leading-snug">
+              "Stepping through the heavy bronze doors feels like entering another dimension. The tea ceremony alone after the hydro soak is unforgettable."
+            </p>
+          </div>
+          <div class="pt-6 border-t border-sand-100 flex items-center gap-3 mt-6">
+            <div class="w-10 h-10 rounded-full bg-sand-200 flex items-center justify-center font-serif font-bold text-sand-900">
+              JW
+            </div>
+            <div>
+              <p class="text-xs font-bold text-sand-900 uppercase tracking-wider">Julian W.</p>
+              <p class="text-[11px] text-sand-400">Author</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Gift & Membership Callout -->
+  <section class="py-20 bg-sand-900 text-sand-100">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <span class="text-xs uppercase tracking-[0.25em] text-gold-400 font-bold">Privilege & Gifting</span>
+        <h2 class="font-serif text-3xl sm:text-5xl font-normal text-white mt-3 mb-6">
+          Give the gift of pure presence.
+        </h2>
+        <p class="text-sand-300 text-sm sm:text-base leading-relaxed mb-8">
+          Personalized embossed physical gift certificates in wax-sealed envelopes, or instantaneous digital vouchers delivered with a custom audio note.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <button onclick="alert('Gift Voucher portal opening...')" class="px-8 py-3.5 bg-gold-400 hover:bg-gold-500 text-sand-900 rounded-full text-xs font-bold tracking-widest uppercase transition-colors">
+            Purchase Gift Certificate
+          </button>
+          <button onclick="alert('Membership dossier download requested.')" class="px-8 py-3.5 border border-sand-500 hover:bg-white/10 text-sand-100 rounded-full text-xs font-semibold tracking-widest uppercase transition-colors">
+            View Sanctuary Memberships
+          </button>
+        </div>
+      </div>
+
+      <div class="relative bg-sand-800/80 p-8 rounded-2xl border border-sand-700/60">
+        <h3 class="font-serif text-2xl text-white mb-2">Sanctuary Circle Privileges</h3>
+        <p class="text-xs text-sand-300/80 mb-6">Limited to 75 patrons annually for uncrowded serenity.</p>
+        
+        <ul class="space-y-4 text-xs tracking-wide">
+          <li class="flex items-center gap-3">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-gold-400"></i>
+            <span>Unlimited access to the Thermal Mineral Baths & Cedar Sauna</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-gold-400"></i>
+            <span>Two 90-minute bespoke body or facial ceremonies every month</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-gold-400"></i>
+            <span>Private evening after-hours access for you and a guest</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-gold-400"></i>
+            <span>Seasonal curation box of freshly extracted botanical serums</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-sand-50 border-t border-sand-200 py-16 text-sand-900/80">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 md:grid-cols-4 gap-10">
+      
+      <!-- Brand -->
+      <div class="space-y-4">
+        <span class="font-serif text-2xl tracking-[0.25em] font-medium text-sand-900 uppercase">
+          Élysia
+        </span>
+        <p class="text-xs text-sand-900/60 leading-relaxed">
+          A dedicated sanctuary honoring botanical wisdom, hydrotherapy traditions, and modern holistic dermal wellness.
+        </p>
+        <p class="text-[11px] text-sand-400">© 2026 Élysia Sanctuary Ltd. All rights reserved.</p>
+      </div>
+
+      <!-- Hours & Location -->
+      <div class="space-y-2">
+        <h4 class="text-xs font-bold uppercase tracking-widest text-sand-900 mb-3">Sanctuary Hours</h4>
+        <p class="text-xs text-sand-900/70">Monday – Friday: 9:00 AM – 8:30 PM</p>
+        <p class="text-xs text-sand-900/70">Saturday – Sunday: 8:30 AM – 9:00 PM</p>
+        <p class="text-xs text-sand-500 font-medium mt-3">44 Heritage Way, Suite 100<br/>Cotswolds & London Flagship</p>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="space-y-2 text-xs font-medium uppercase tracking-wider">
+        <h4 class="text-xs font-bold uppercase tracking-widest text-sand-900 mb-3">Explore</h4>
+        <a href="#rituals" class="block hover:text-sand-500">The Philosophy</a>
+        <a href="#treatments" class="block hover:text-sand-500">Treatment Menu</a>
+        <a href="#aroma" class="block hover:text-sand-500">Aroma Profiler</a>
+        <a href="#ambience" class="block hover:text-sand-500">Private Suites</a>
+        <a href="#" class="block hover:text-sand-500">Careers & Therapists</a>
+      </div>
+
+      <!-- Newsletter -->
+      <div class="space-y-3">
+        <h4 class="text-xs font-bold uppercase tracking-widest text-sand-900">Private Invitations</h4>
+        <p class="text-xs text-sand-900/60 leading-relaxed">
+          Receive seasonal retreat invitations and limited botanical release alerts.
+        </p>
+        <div class="flex gap-2">
+          <input type="email" placeholder="Your email address" class="w-full text-xs px-3.5 py-2.5 rounded-full border border-sand-300 focus:outline-none focus:border-sand-500 bg-white">
+          <button onclick="alert('Thank you for joining our private circle.')" class="px-5 py-2.5 bg-sand-900 hover:bg-sand-500 text-sand-50 rounded-full text-xs font-bold uppercase tracking-wider transition-colors">
+            Join
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Interactive Booking Drawer / Modal -->
+  <div id="bookingModal" class="fixed inset-0 z-50 hidden bg-sand-900/60 backdrop-blur-sm transition-opacity flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl border border-sand-200 relative transform transition-all scale-95 duration-200" id="bookingContent">
+      
+      <!-- Close Button -->
+      <button onclick="closeBooking()" class="absolute top-6 right-6 text-sand-400 hover:text-sand-900 p-1">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+
+      <!-- Modal Header -->
+      <div class="mb-6 space-y-1">
+        <span class="text-[10px] uppercase tracking-widest text-sand-500 font-bold">Online Reservation</span>
+        <h3 class="font-serif text-3xl font-normal text-sand-900">Reserve Your Ritual</h3>
+        <p class="text-xs text-sand-400">Step into calm. Select your preferred appointment.</p>
+      </div>
+
+      <!-- Booking Form -->
+      <form id="reservationForm" onsubmit="handleReservationSubmit(event)" class="space-y-4">
+        
+        <!-- Pre-selected treatment preview -->
+        <div class="p-3.5 bg-sand-50 rounded-xl border border-sand-200 flex items-center justify-between">
+          <div>
+            <span class="text-[10px] uppercase font-bold text-sand-400">Selected Treatment</span>
+            <p id="modalTreatmentName" class="text-sm font-semibold text-sand-900">Rose Quartz Luminous Facial</p>
+          </div>
+          <span id="modalTreatmentPrice" class="font-serif text-lg font-bold text-sand-500">$185</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- Date -->
+          <div>
+            <label class="block text-[11px] uppercase font-bold tracking-wider text-sand-700 mb-1">Date</label>
+            <input type="date" required value="2026-11-02" class="w-full text-xs p-3 rounded-xl border border-sand-200 focus:outline-none focus:border-sand-500 bg-sand-50">
+          </div>
+          
+          <!-- Time -->
+          <div>
+            <label class="block text-[11px] uppercase font-bold tracking-wider text-sand-700 mb-1">Time Slot</label>
+            <select class="w-full text-xs p-3 rounded-xl border border-sand-200 focus:outline-none focus:border-sand-500 bg-sand-50">
+              <option>10:00 AM — Morning Serenity</option>
+              <option>01:30 PM — Afternoon Recharge</option>
+              <option>04:00 PM — Twilight Thermal</option>
+              <option>06:30 PM — Evening Stillness</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Practitioner Preference -->
+        <div>
+          <label class="block text-[11px] uppercase font-bold tracking-wider text-sand-700 mb-1">Practitioner Preference</label>
+          <select class="w-full text-xs p-3 rounded-xl border border-sand-200 focus:outline-none focus:border-sand-500 bg-sand-50">
+            <option>First Available Senior Master Therapist</option>
+            <option>Elena Rossi (Facial & Dermal Sculpting)</option>
+            <option>Maya Chen (Ayurvedic & Sound Healing)</option>
+            <option>Marcus Vance (Deep Basalt & Thermal Contrast)</option>
+          </select>
+        </div>
+
+        <!-- Guest Information -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-[11px] uppercase font-bold tracking-wider text-sand-700 mb-1">Your Full Name</label>
+            <input type="text" placeholder="Sophie Laurent" required class="w-full text-xs p-3 rounded-xl border border-sand-200 focus:outline-none focus:border-sand-500 bg-sand-50">
+          </div>
+          <div>
+            <label class="block text-[11px] uppercase font-bold tracking-wider text-sand-700 mb-1">Email Address</label>
+            <input type="email" placeholder="sophie@example.com" required class="w-full text-xs p-3 rounded-xl border border-sand-200 focus:outline-none focus:border-sand-500 bg-sand-50">
+          </div>
+        </div>
+
+        <!-- Special Sensorial Preferences -->
+        <div>
+          <label class="block text-[11px] uppercase font-bold tracking-wider text-sand-700 mb-1">Aroma & Pressure Notes (Optional)</label>
+          <input type="text" placeholder="e.g. Mild lavender aroma, firm shoulder pressure" class="w-full text-xs p-3 rounded-xl border border-sand-200 focus:outline-none focus:border-sand-500 bg-sand-50">
+        </div>
+
+        <button type="submit" class="w-full mt-4 py-4 bg-sand-900 hover:bg-sand-500 text-sand-50 font-semibold text-xs tracking-widest uppercase rounded-full transition-all duration-300 shadow-md">
+          Confirm Reservation
+        </button>
+
+        <p class="text-[10px] text-center text-sand-400 mt-2">
+          Complimentary rescheduling up to 24 hours prior to appointment.
+        </p>
+      </form>
+
+      <!-- Confirmation View (Hidden by default) -->
+      <div id="confirmationView" class="hidden text-center py-8 space-y-4">
+        <div class="w-16 h-16 rounded-full bg-sand-100 text-gold-500 mx-auto flex items-center justify-center">
+          <i data-lucide="check" class="w-8 h-8"></i>
+        </div>
+        <h4 class="font-serif text-3xl font-medium text-sand-900">Sanctuary Reserved</h4>
+        <p class="text-xs text-sand-700 max-w-sm mx-auto leading-relaxed">
+          A confirmation with your pre-arrival thermal ritual guide and directions has been prepared for you.
+        </p>
+        <button onclick="closeBooking()" class="mt-4 px-6 py-2.5 bg-sand-900 text-sand-50 text-xs uppercase tracking-wider font-semibold rounded-full">
+          Return to Sanctuary
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Client-side Logic Script -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Mobile Menu Toggle
+    function toggleMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('hidden');
+    }
+    document.getElementById('mobileMenuBtn').addEventListener('click', toggleMenu);
+
+    // Treatment Category Filter
+    function filterTreatments(category) {
+      // Update Tab Styles
+      const tabs = document.querySelectorAll('.treatment-tab');
+      tabs.forEach(tab => {
+        tab.classList.remove('bg-sand-900', 'text-sand-50');
+        tab.classList.add('text-sand-900');
+      });
+      event.target.classList.add('bg-sand-900', 'text-sand-50');
+      event.target.classList.remove('text-sand-900');
+
+      // Filter Cards
+      const cards = document.querySelectorAll('.treatment-card');
+      cards.forEach(card => {
+        if (category === 'all' || card.getAttribute('data-category') === category) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    // Sensory State Selector
+    const stateData = {
+      calm: {
+        title: "Lavender Blossom & Frankincense Cocoon",
+        desc: "A 90-minute treatment combining warm sweet almond oil, wild organic French lavender, and gentle acupressure to down-regulate your autonomic nervous system.",
+        price: "$205"
+      },
+      vitality: {
+        title: "Wild Orange & Juniper Awakening Massage",
+        desc: "Invigorating dry body brushing followed by an energizing massage with cold-pressed citrus extracts and rosemary essential oils to restore vitality.",
+        price: "$190"
+      },
+      detox: {
+        title: "Volcanic Mineral Wrap & Seaweed Hydro-Infusion",
+        desc: "Full-body warm clay wrap rich in active trace minerals, combined with lymphatic contouring strokes and herbal sauna detox.",
+        price: "$225"
+      },
+      glow: {
+        title: "Rose Quartz & Hyaluronic Cellular Hydration",
+        desc: "Targeted dermal moisture saturation with botanical botanical nectar, chilled crystal sculpting, and illuminating enzyme exfoliation.",
+        price: "$185"
+      }
+    };
+
+    function selectState(key) {
+      const data = stateData[key];
+      if (!data) return;
+
+      // Update button styles
+      document.querySelectorAll('.state-btn').forEach(btn => {
+        btn.classList.remove('border-gold-400', 'bg-sage-800');
+        btn.classList.add('border-sage-600', 'bg-sage-800/60');
+      });
+      event.currentTarget.classList.add('border-gold-400', 'bg-sage-800');
+      event.currentTarget.classList.remove('border-sage-600', 'bg-sage-800/60');
+
+      // Update recommendation
+      document.getElementById('recTitle').innerText = data.title;
+      document.getElementById('recDesc').innerText = data.desc;
+      const bookBtn = document.getElementById('recBookBtn');
+      bookBtn.setAttribute('onclick', `openBooking('${data.title}', '${data.price}')`);
+    }
+
+    // Booking Modal Interactions
+    function openBooking(treatmentName, price) {
+      document.getElementById('modalTreatmentName').innerText = treatmentName;
+      document.getElementById('modalTreatmentPrice').innerText = price;
+      
+      const modal = document.getElementById('bookingModal');
+      const content = document.getElementById('bookingContent');
+      
+      document.getElementById('reservationForm').classList.remove('hidden');
+      document.getElementById('confirmationView').classList.add('hidden');
+      
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        content.classList.remove('scale-95');
+        content.classList.add('scale-100');
+      }, 10);
+    }
+
+    function closeBooking() {
+      const modal = document.getElementById('bookingModal');
+      const content = document.getElementById('bookingContent');
+      content.classList.remove('scale-100');
+      content.classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 150);
+    }
+
+    function handleReservationSubmit(e) {
+      e.preventDefault();
+      document.getElementById('reservationForm').classList.add('hidden');
+      document.getElementById('confirmationView').classList.remove('hidden');
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

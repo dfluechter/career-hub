@@ -1,0 +1,313 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    Dashboard | Career Hub
+{% endblock %}
+
+
+{% block content %}
+
+<div class="mx-auto max-w-7xl">
+
+    <div class="mb-8">
+
+        <p
+            class="
+                text-sm
+                font-medium
+                text-blue-400
+            "
+        >
+            Übersicht
+        </p>
+
+        <h1
+            class="
+                mt-1
+                text-3xl
+                font-bold
+                tracking-tight
+            "
+        >
+            Dashboard
+        </h1>
+
+        <p
+            class="
+                mt-2
+                max-w-2xl
+                text-slate-400
+            "
+        >
+            Stellenangebote, Bewerbungen und
+            Bewerbungsunterlagen zentral verwalten.
+        </p>
+
+    </div>
+
+
+    <!-- Overview cards -->
+
+    <div
+        class="
+            grid
+            gap-4
+            sm:grid-cols-2
+            xl:grid-cols-4
+        "
+    >
+
+        <article
+            class="
+                rounded-2xl
+                border
+                border-slate-800
+                bg-slate-900
+                p-5
+            "
+        >
+
+            <p class="text-sm text-slate-400">
+                Stellenangebote
+            </p>
+
+            <p class="mt-3 text-3xl font-bold">
+                0
+            </p>
+
+            <p class="mt-2 text-sm text-slate-500">
+                Noch keine importierten Stellen
+            </p>
+
+        </article>
+
+
+        <article
+            class="
+                rounded-2xl
+                border
+                border-slate-800
+                bg-slate-900
+                p-5
+            "
+        >
+
+            <p class="text-sm text-slate-400">
+                Bewerbungen
+            </p>
+
+            <p class="mt-3 text-3xl font-bold">
+                0
+            </p>
+
+            <p class="mt-2 text-sm text-slate-500">
+                Noch keine Bewerbungen
+            </p>
+
+        </article>
+
+
+        <article
+            class="
+                rounded-2xl
+                border
+                border-slate-800
+                bg-slate-900
+                p-5
+            "
+        >
+
+            <p class="text-sm text-slate-400">
+                Dokumente
+            </p>
+
+            <p class="mt-3 text-3xl font-bold">
+                0
+            </p>
+
+            <p class="mt-2 text-sm text-slate-500">
+                Lebensläufe und Anschreiben
+            </p>
+
+        </article>
+
+
+        <article
+            class="
+                rounded-2xl
+                border
+                border-slate-800
+                bg-slate-900
+                p-5
+            "
+        >
+
+            <p class="text-sm text-slate-400">
+                Zertifikate
+            </p>
+
+            <p class="mt-3 text-3xl font-bold">
+                0
+            </p>
+
+            <p class="mt-2 text-sm text-slate-500">
+                Noch keine Zertifikate
+            </p>
+
+        </article>
+
+    </div>
+
+
+    <!-- Main blocks -->
+
+    <div
+        class="
+            mt-8
+            grid
+            gap-6
+            xl:grid-cols-3
+        "
+    >
+
+        <section
+            class="
+                rounded-2xl
+                border
+                border-slate-800
+                bg-slate-900
+                xl:col-span-2
+            "
+        >
+
+            <div
+                class="
+                    border-b
+                    border-slate-800
+                    p-5
+                "
+            >
+
+                <h2 class="font-semibold">
+                    Aktuelle Stellenangebote
+                </h2>
+
+                <p
+                    class="
+                        mt-1
+                        text-sm
+                        text-slate-400
+                    "
+                >
+                    Neue Jobangebote aus deinen
+                    verbundenen E-Mail-Postfächern.
+                </p>
+
+            </div>
+
+
+            <div
+                class="
+                    flex
+                    min-h-48
+                    items-center
+                    justify-center
+                    p-8
+                    text-center
+                "
+            >
+
+                <div>
+
+                    <p class="font-medium">
+                        Noch keine Stellenangebote
+                    </p>
+
+                    <p
+                        class="
+                            mt-2
+                            text-sm
+                            text-slate-500
+                        "
+                    >
+                        In Phase 2 verbinden wir
+                        das JobOffer-Datenmodell.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <aside
+            class="
+                rounded-2xl
+                border
+                border-slate-800
+                bg-slate-900
+                p-5
+            "
+        >
+
+            <h2 class="font-semibold">
+                Zielprofile
+            </h2>
+
+            <div class="mt-5 space-y-3">
+
+                <div
+                    class="
+                        rounded-xl
+                        bg-slate-800
+                        px-4
+                        py-3
+                    "
+                >
+                    IT-Techniker
+                </div>
+
+                <div
+                    class="
+                        rounded-xl
+                        bg-slate-800
+                        px-4
+                        py-3
+                    "
+                >
+                    Software Entwickler
+                </div>
+
+                <div
+                    class="
+                        rounded-xl
+                        bg-slate-800
+                        px-4
+                        py-3
+                    "
+                >
+                    Data Analyst
+                </div>
+
+                <div
+                    class="
+                        rounded-xl
+                        bg-slate-800
+                        px-4
+                        py-3
+                    "
+                >
+                    Software Tester
+                </div>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth bg-black text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAREER://HUB v2.6.4 — Cybernetic Career Command & Pipeline Terminal</title>
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Fira Code, Share Tech Mono, Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Share+Tech+Mono&family=Space+Grotesk:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['"Share Tech Mono"', '"Fira Code"', 'monospace'],
+            code: ['"Fira Code"', 'monospace'],
+            sans: ['"Space Grotesk"', 'sans-serif'],
+          },
+          colors: {
+            neon: {
+              green: '#00FF66',
+              cyan: '#00F0FF',
+              amber: '#FFB800',
+              pink: '#FF0055',
+              purple: '#9D00FF'
+            },
+            cyber: {
+              950: '#020408',
+              900: '#050A10',
+              850: '#0A121D',
+              800: '#0F1A29',
+              700: '#17273D',
+              border: '#00FF6633',
+            }
+          },
+          boxShadow: {
+            'neon-green': '0 0 20px -2px rgba(0, 255, 102, 0.45)',
+            'neon-cyan': '0 0 20px -2px rgba(0, 240, 255, 0.45)',
+            'neon-pink': '0 0 20px -2px rgba(255, 0, 85, 0.45)',
+            'hud-glow': 'inset 0 0 15px rgba(0, 255, 102, 0.1)',
+          },
+          animation: {
+            'scanline': 'scanline 8s linear infinite',
+            'radar': 'radar 4s linear infinite',
+            'flicker': 'flicker 0.15s infinite',
+            'glow-pulse': 'glowPulse 2s ease-in-out infinite',
+          },
+          keyframes: {
+            scanline: {
+              '0%': { transform: 'translateY(-100%)' },
+              '100%': { transform: 'translateY(1000%)' }
+            },
+            glowPulse: {
+              '0%, 100%': { opacity: '1' },
+              '50%': { opacity: '0.4' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* CRT Scanline Overlay Effect */
+    .crt-overlay::before {
+      content: " ";
+      display: block;
+      position: fixed;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+      z-index: 99;
+      background-size: 100% 3px, 6px 100%;
+      pointer-events: none;
+    }
+
+    /* Cyber Grid Background */
+    .cyber-grid {
+      background-size: 32px 32px;
+      background-image: 
+        linear-gradient(to right, rgba(0, 255, 102, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 255, 102, 0.04) 1px, transparent 1px);
+    }
+
+    /* HUD Corner Cut Effect */
+    .hud-corner {
+      position: relative;
+      background: rgba(10, 18, 29, 0.7);
+      backdrop-filter: blur(8px);
+      clip-path: polygon(
+        0 12px,
+        12px 0,
+        calc(100% - 12px) 0,
+        100% 12px,
+        100% calc(100% - 12px),
+        calc(100% - 12px) 100%,
+        12px 100%,
+        0 calc(100% - 12px)
+      );
+      border: 1px solid rgba(0, 255, 102, 0.25);
+    }
+
+    .hud-corner:hover {
+      border-color: rgba(0, 255, 102, 0.6);
+      box-shadow: 0 0 25px -4px rgba(0, 255, 102, 0.2);
+    }
+
+    .hud-corner-cyan {
+      clip-path: polygon(
+        0 12px, 12px 0, calc(100% - 12px) 0, 100% 12px,
+        100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px)
+      );
+      border: 1px solid rgba(0, 240, 255, 0.3);
+    }
+
+    /* Custom Cyber Scrollbar */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #020408;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #00FF6644;
+      border-radius: 2px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #00FF66AA;
+    }
+  </style>
+</head>
+<body class="crt-overlay bg-cyber-950 font-sans selection:bg-neon-green selection:text-black min-h-screen text-slate-200">
+
+  <!-- Ambient Hologram Radial Glows -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden -z-10">
+    <div class="absolute -top-32 left-1/4 w-[700px] h-[700px] bg-neon-green/10 rounded-full blur-[160px]"></div>
+    <div class="absolute top-1/2 -right-32 w-[600px] h-[600px] bg-neon-cyan/10 rounded-full blur-[170px]"></div>
+    <div class="absolute -bottom-40 left-10 w-[600px] h-[600px] bg-neon-pink/5 rounded-full blur-[180px]"></div>
+  </div>
+
+  <!-- Terminal Status Ticker -->
+  <div class="border-b border-neon-green/20 bg-black/90 font-mono text-[11px] py-1.5 px-4 flex flex-wrap items-center justify-between text-neon-green tracking-wider">
+    <div class="flex items-center gap-3">
+      <span class="inline-block w-2 h-2 rounded-full bg-neon-green shadow-neon-green animate-pulse"></span>
+      <span class="font-bold">SYSTEM://ONLINE</span>
+      <span class="text-slate-500">|</span>
+      <span class="text-slate-400">DAEMON: <span class="text-neon-cyan">mail_import:993 (IMAP_SSL)</span></span>
+      <span class="text-slate-500">|</span>
+      <span class="text-slate-400">LATENCY: <span class="text-neon-green font-bold">1.2ms</span></span>
+    </div>
+    <div class="hidden md:flex items-center gap-4 text-slate-400">
+      <span>NODE: <strong class="text-slate-200">LOCAL_PROD_01</strong></span>
+      <span>SECURITY: <strong class="text-neon-green">ENCRYPTED_AES256</strong></span>
+      <span id="liveClock" class="text-neon-cyan font-bold">2026-11-01 17:38:00 UTC</span>
+    </div>
+  </div>
+
+  <!-- HUD Navigation -->
+  <header class="sticky top-0 z-40 bg-cyber-950/90 backdrop-blur-md border-b border-neon-green/20">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="relative w-10 h-10 bg-cyber-900 border border-neon-green/60 rounded flex items-center justify-center text-neon-green shadow-neon-green group-hover:border-neon-cyan group-hover:text-neon-cyan transition-colors">
+          <i data-lucide="terminal" class="w-5 h-5"></i>
+          <!-- Crosshair corners -->
+          <div class="absolute -top-1 -left-1 w-1.5 h-1.5 border-t border-l border-neon-green"></div>
+          <div class="absolute -bottom-1 -right-1 w-1.5 h-1.5 border-b border-r border-neon-green"></div>
+        </div>
+        <div class="flex flex-col">
+          <div class="flex items-center gap-2">
+            <span class="font-mono text-xl font-bold tracking-widest text-white group-hover:text-neon-green transition-colors">
+              CAREER<span class="text-neon-green">://</span>HUB
+            </span>
+            <span class="px-1.5 py-0.2 font-mono text-[9px] uppercase border border-neon-cyan/40 text-neon-cyan rounded bg-neon-cyan/10">v2.6</span>
+          </div>
+          <span class="font-mono text-[10px] tracking-widest text-slate-400 uppercase">Cybernetic Career Command Deck</span>
+        </div>
+      </a>
+
+      <!-- HUD Nav Links -->
+      <nav class="hidden md:flex items-center gap-8 font-mono text-xs uppercase tracking-wider text-slate-300">
+        <a href="#pipeline" class="hover:text-neon-green transition-colors flex items-center gap-1.5">
+          <span class="text-neon-green font-bold">[01]</span> Pipeline Matrix
+        </a>
+        <a href="#daemon" class="hover:text-neon-green transition-colors flex items-center gap-1.5">
+          <span class="text-neon-cyan font-bold">[02]</span> Mail Daemon
+        </a>
+        <a href="#documents" class="hover:text-neon-green transition-colors flex items-center gap-1.5">
+          <span class="text-neon-amber font-bold">[03]</span> CV Vault
+        </a>
+        <a href="#telemetry" class="hover:text-neon-green transition-colors flex items-center gap-1.5">
+          <span class="text-neon-pink font-bold">[04]</span> Telemetry
+        </a>
+        <a href="#terminal-cli" class="hover:text-neon-green transition-colors flex items-center gap-1.5">
+          <span class="text-neon-purple font-bold">[05]</span> CLI
+        </a>
+      </nav>
+
+      <!-- Control Cluster -->
+      <div class="flex items-center gap-3">
+        <a href="/admin/" class="hidden sm:inline-flex items-center gap-2 px-3.5 py-2 font-mono text-xs font-semibold rounded bg-cyber-900 border border-slate-700 text-slate-300 hover:text-white hover:border-slate-500 transition-colors">
+          <i data-lucide="shield" class="w-3.5 h-3.5 text-neon-cyan"></i>
+          <span>Django Auth</span>
+        </a>
+
+        <a href="#pipeline" class="relative inline-flex items-center justify-center px-4 py-2 font-mono text-xs font-bold uppercase tracking-wider text-black bg-neon-green hover:bg-neon-cyan transition-all shadow-neon-green rounded">
+          <i data-lucide="power" class="w-3.5 h-3.5 mr-1.5"></i>
+          <span>Launch Deck</span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Hero Section with Tactical HUD & Live Telemetry -->
+  <section class="relative pt-16 pb-24 cyber-grid overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+      
+      <!-- Top Cyber Tag -->
+      <div class="flex items-center justify-center mb-6">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-cyber-900/90 border border-neon-green/40 rounded font-mono text-xs text-neon-green shadow-neon-green">
+          <span class="w-2 h-2 rounded-full bg-neon-green animate-ping"></span>
+          <span>PIPELINE ENGINE: ACTIVE // ZERO CLOUD LEAKS // LOCAL FIRST</span>
+        </div>
+      </div>
+
+      <!-- Main Headline -->
+      <div class="text-center max-w-4xl mx-auto space-y-4">
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.08]">
+          HACK YOUR NEXT MOVE.<br/>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-green via-neon-cyan to-white font-mono">
+            AUTOMATE RECRUITER WARFARE.
+          </span>
+        </h1>
+        
+        <p class="font-mono text-sm sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed pt-2">
+          Spreadsheets are obsolete. <span class="text-neon-cyan font-bold">Career-Hub</span> intercepts recruiter emails, parses take-homes, versions your CV variants, and executes salary negotiation arbitrage from your own local machine.
+        </p>
+
+        <!-- Command Launcher Actions -->
+        <div class="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4 font-mono text-xs">
+          <a href="#pipeline" class="w-full sm:w-auto px-8 py-4 bg-neon-green text-black font-bold uppercase tracking-widest hover:bg-neon-cyan hover:shadow-neon-cyan transition-all duration-300 rounded flex items-center justify-center gap-2 shadow-neon-green">
+            <i data-lucide="crosshair" class="w-4 h-4"></i>
+            <span>Initialize Pipeline Matrix</span>
+          </a>
+
+          <a href="#daemon" class="w-full sm:w-auto px-8 py-4 bg-cyber-900 border border-neon-cyan/50 text-neon-cyan hover:bg-neon-cyan/10 transition-all rounded flex items-center justify-center gap-2">
+            <i data-lucide="cpu" class="w-4 h-4"></i>
+            <span>Inspect Mail Daemon Stream</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- HUD Tactical Metric Modules -->
+      <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto font-mono">
+        
+        <div class="hud-corner p-4 space-y-1">
+          <div class="flex justify-between items-center text-[10px] text-slate-400">
+            <span>ACTIVE_TARGETS</span>
+            <span class="text-neon-green font-bold">[24/30]</span>
+          </div>
+          <div class="text-2xl sm:text-3xl font-bold text-white tracking-wider">24 ROLES</div>
+          <p class="text-[10px] text-neon-green flex items-center gap-1">
+            <i data-lucide="trending-up" class="w-3 h-3"></i> +6 targets queued
+          </p>
+        </div>
+
+        <div class="hud-corner p-4 space-y-1">
+          <div class="flex justify-between items-center text-[10px] text-slate-400">
+            <span>CONVERSION_VELOCITY</span>
+            <span class="text-neon-cyan font-bold">[37.5%]</span>
+          </div>
+          <div class="text-2xl sm:text-3xl font-bold text-white tracking-wider">37.5%</div>
+          <p class="text-[10px] text-neon-cyan flex items-center gap-1">
+            <i data-lucide="zap" class="w-3 h-3"></i> High Interview Rate
+          </p>
+        </div>
+
+        <div class="hud-corner p-4 space-y-1">
+          <div class="flex justify-between items-center text-[10px] text-slate-400">
+            <span>PARSED_RECRUITERS</span>
+            <span class="text-neon-amber font-bold">[142 RAW]</span>
+          </div>
+          <div class="text-2xl sm:text-3xl font-bold text-white tracking-wider">142 MAILS</div>
+          <p class="text-[10px] text-neon-amber flex items-center gap-1">
+            <i data-lucide="bot" class="w-3 h-3"></i> 0 manual entries
+          </p>
+        </div>
+
+        <div class="hud-corner p-4 space-y-1">
+          <div class="flex justify-between items-center text-[10px] text-slate-400">
+            <span>MAX_OFFER_POOL</span>
+            <span class="text-neon-pink font-bold">[LEVERAGE]</span>
+          </div>
+          <div class="text-2xl sm:text-3xl font-bold text-white tracking-wider">€125,000</div>
+          <p class="text-[10px] text-neon-pink flex items-center gap-1">
+            <i data-lucide="shield-alert" class="w-3 h-3"></i> 2 offers expiring
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Interactive Cyber Pipeline Matrix Section -->
+  <section id="pipeline" class="py-20 bg-cyber-900 border-y border-neon-green/20 relative">
+    <div class="max-w-7xl mx-auto px-6">
+      
+      <!-- Section Title & Trigger Controls -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+        <div>
+          <div class="flex items-center gap-2 font-mono text-xs font-bold text-neon-green tracking-widest uppercase">
+            <i data-lucide="grid" class="w-4 h-4"></i>
+            <span>Module 01: Interactive Pipeline Grid</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight mt-1">
+            LIVE APPLICATION MATRIX & STATUS ENGINE
+          </h2>
+        </div>
+
+        <!-- Terminal Trigger Buttons -->
+        <div class="flex flex-wrap items-center gap-2 font-mono text-xs">
+          <button onclick="injectApplication()" class="px-3.5 py-2 bg-cyber-850 hover:bg-cyber-800 text-neon-green border border-neon-green/40 hover:border-neon-green transition-all rounded flex items-center gap-2">
+            <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+            <span>[+] Inject Target Role</span>
+          </button>
+
+          <button onclick="simulateDaemonEvent()" class="px-3.5 py-2 bg-cyber-850 hover:bg-cyber-800 text-neon-cyan border border-neon-cyan/40 hover:border-neon-cyan transition-all rounded flex items-center gap-2 shadow-neon-cyan">
+            <i data-lucide="radio" class="w-3.5 h-3.5"></i>
+            <span>[~] Trigger Recruiter Inbound</span>
+          </button>
+
+          <button onclick="purgeBoard()" class="px-3 py-2 bg-cyber-850 hover:bg-cyber-800 text-slate-400 hover:text-white border border-slate-700 rounded transition-all" title="Reload Matrix">
+            <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- 4-Column Cyber Kanban Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 font-mono">
+        
+        <!-- Column 1: APPLIED -->
+        <div class="hud-corner p-4 flex flex-col h-[540px]">
+          <div class="flex items-center justify-between pb-3 border-b border-neon-green/20 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-slate-400"></span>
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-300">STAGE: APPLIED</span>
+            </div>
+            <span id="badge-applied" class="px-2 py-0.5 rounded bg-black text-neon-green border border-neon-green/30 text-xs">02</span>
+          </div>
+
+          <div id="col-applied" class="space-y-3 overflow-y-auto flex-1 pr-1 text-xs">
+            
+            <div class="p-3.5 rounded bg-cyber-900 border border-slate-800 hover:border-neon-green/60 transition-all cursor-pointer group shadow-hud-glow">
+              <div class="flex justify-between items-start">
+                <span class="text-neon-cyan font-bold tracking-wider">[VERCEL]</span>
+                <span class="text-[10px] text-neon-green font-mono">€110k/yr</span>
+              </div>
+              <h4 class="text-sm font-sans font-bold text-white group-hover:text-neon-green transition-colors mt-1">Staff Solutions Architect</h4>
+              <div class="mt-3 pt-2 border-t border-slate-800 flex justify-between items-center text-[10px] text-slate-400">
+                <span>CV: backend_core_v4</span>
+                <span class="text-slate-500">2d ago</span>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded bg-cyber-900 border border-slate-800 hover:border-neon-green/60 transition-all cursor-pointer group shadow-hud-glow">
+              <div class="flex justify-between items-start">
+                <span class="text-neon-cyan font-bold tracking-wider">[LINEAR]</span>
+                <span class="text-[10px] text-neon-green font-mono">€100k/yr</span>
+              </div>
+              <h4 class="text-sm font-sans font-bold text-white group-hover:text-neon-green transition-colors mt-1">Senior Product Engineer</h4>
+              <div class="mt-3 pt-2 border-t border-slate-800 flex justify-between items-center text-[10px] text-slate-400">
+                <span>CV: frontend_craft_v2</span>
+                <span class="text-slate-500">4d ago</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Column 2: SCREENING -->
+        <div class="hud-corner p-4 flex flex-col h-[540px] border-neon-cyan/40">
+          <div class="flex items-center justify-between pb-3 border-b border-neon-cyan/20 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-neon-cyan shadow-neon-cyan animate-pulse"></span>
+              <span class="text-xs font-bold uppercase tracking-wider text-neon-cyan">STAGE: SCREENING</span>
+            </div>
+            <span id="badge-screening" class="px-2 py-0.5 rounded bg-black text-neon-cyan border border-neon-cyan/30 text-xs">01</span>
+          </div>
+
+          <div id="col-screening" class="space-y-3 overflow-y-auto flex-1 pr-1 text-xs">
+            <div class="p-3.5 rounded bg-cyber-900 border border-neon-cyan/30 hover:border-neon-cyan transition-all cursor-pointer group shadow-neon-cyan">
+              <div class="flex justify-between items-start">
+                <span class="text-neon-cyan font-bold tracking-wider">[DATADOG]</span>
+                <span class="text-[10px] text-neon-cyan font-mono">REMOTE</span>
+              </div>
+              <h4 class="text-sm font-sans font-bold text-white group-hover:text-neon-cyan transition-colors mt-1">Backend Engineer (Distributed)</h4>
+              <div class="mt-2.5 p-2 rounded bg-black/60 border border-neon-cyan/20 text-[10px] text-neon-cyan flex items-center gap-1.5">
+                <i data-lucide="phone-outgoing" class="w-3 h-3"></i>
+                <span>Recruiter Sync: Thu 14:00 CET</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 3: INTERVIEWING -->
+        <div class="hud-corner p-4 flex flex-col h-[540px] border-neon-green/50">
+          <div class="flex items-center justify-between pb-3 border-b border-neon-green/20 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-neon-green shadow-neon-green animate-pulse"></span>
+              <span class="text-xs font-bold uppercase tracking-wider text-neon-green">STAGE: INTERVIEWS</span>
+            </div>
+            <span id="badge-interview" class="px-2 py-0.5 rounded bg-black text-neon-green border border-neon-green/40 text-xs font-bold">01</span>
+          </div>
+
+          <div id="col-interview" class="space-y-3 overflow-y-auto flex-1 pr-1 text-xs">
+            <div class="p-3.5 rounded bg-cyber-900 border border-neon-green/40 hover:border-neon-green transition-all cursor-pointer group shadow-neon-green">
+              <div class="flex justify-between items-start">
+                <span class="text-neon-green font-bold tracking-wider">[STRIPE]</span>
+                <span class="text-[10px] text-neon-green font-mono">€125,000</span>
+              </div>
+              <h4 class="text-sm font-sans font-bold text-white group-hover:text-neon-green transition-colors mt-1">Senior Systems Engineer</h4>
+              <div class="mt-2.5 p-2 rounded bg-black/60 border border-neon-green/30 text-[10px] text-neon-green flex items-center gap-1.5">
+                <i data-lucide="video" class="w-3 h-3"></i>
+                <span>System Design: Round 3/4</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 4: OFFER DECK -->
+        <div class="hud-corner p-4 flex flex-col h-[540px] border-neon-pink/40">
+          <div class="flex items-center justify-between pb-3 border-b border-neon-pink/20 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-neon-pink shadow-neon-pink"></span>
+              <span class="text-xs font-bold uppercase tracking-wider text-neon-pink">STAGE: OFFER DECK</span>
+            </div>
+            <span id="badge-offer" class="px-2 py-0.5 rounded bg-black text-neon-pink border border-neon-pink/40 text-xs font-bold">01</span>
+          </div>
+
+          <div id="col-offer" class="space-y-3 overflow-y-auto flex-1 pr-1 text-xs">
+            <div class="p-3.5 rounded bg-cyber-900 border border-neon-pink/50 hover:border-neon-pink transition-all cursor-pointer group shadow-neon-pink">
+              <div class="flex justify-between items-start">
+                <span class="text-neon-pink font-bold tracking-wider">[SPOTIFY]</span>
+                <span class="text-[11px] font-bold text-neon-pink font-mono">€115,000</span>
+              </div>
+              <h4 class="text-sm font-sans font-bold text-white mt-1">Lead Backend Architect</h4>
+              <p class="text-[10px] text-slate-400 mt-2">
+                Stock: 0.15% equity. €5k hardware budget. Sign-on deadline: 5 days.
+              </p>
+              <div class="mt-3 pt-2 border-t border-neon-pink/20 flex justify-between items-center text-[10px]">
+                <span class="text-neon-pink font-bold">ARBITRAGE: READY</span>
+                <span class="text-slate-400">Negotiating</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Cyber Terminal Toast Notification Mount -->
+      <div id="cyberToastMount" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 max-w-sm font-mono text-xs"></div>
+
+    </div>
+  </section>
+
+  <!-- Deep Dive 02: IMAP Daemon Ingestion Stream (Realtime Parsing) -->
+  <section id="daemon" class="py-20 max-w-7xl mx-auto px-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      
+      <!-- Daemon Left Column -->
+      <div class="lg:col-span-6 space-y-5 font-mono">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-neon-cyan/10 border border-neon-cyan/30 text-neon-cyan text-xs">
+          <i data-lucide="radio" class="w-3.5 h-3.5 animate-pulse"></i>
+          <span>MODULE: mail_import.daemon</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white font-sans tracking-tight">
+          AUTOMATIC IMAP INGESTION & REGEX DECODER
+        </h2>
+
+        <p class="text-slate-400 text-sm leading-relaxed font-sans font-light">
+          No copy-pasting rejection letters or interview invites. The <code class="text-neon-green font-mono">mail_import</code> daemon continuously polls your configured mailbox over TLS, matches sender domains with registered jobs, extracts timestamp metadata, and triggers state transitions in PostgreSQL.
+        </p>
+
+        <div class="space-y-3 pt-2 text-xs">
+          <div class="p-3 bg-cyber-900 border border-slate-800 rounded flex items-center justify-between">
+            <span class="text-slate-300">Domain-to-Company Matching Algorithm</span>
+            <span class="text-neon-green font-bold">[100% ACCURATE]</span>
+          </div>
+          <div class="p-3 bg-cyber-900 border border-slate-800 rounded flex items-center justify-between">
+            <span class="text-slate-300">Interview Cal link & Zoom extraction</span>
+            <span class="text-neon-cyan font-bold">[AUTO-SCHEDULED]</span>
+          </div>
+          <div class="p-3 bg-cyber-900 border border-slate-800 rounded flex items-center justify-between">
+            <span class="text-slate-300">Encrypted Local Storage (No 3rd-party cloud)</span>
+            <span class="text-neon-amber font-bold">[ZERO DATA LOSS]</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Realtime Terminal Console Output -->
+      <div class="lg:col-span-6">
+        <div class="hud-corner-cyan p-5 bg-black/95 font-code text-xs text-slate-300 shadow-neon-cyan space-y-3">
+          <div class="flex justify-between items-center pb-3 border-b border-neon-cyan/30 text-[11px] text-slate-400">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-neon-pink"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-neon-amber"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-neon-green"></span>
+              <span class="text-neon-cyan font-mono ml-2 font-bold">mail_worker.log — live buffer</span>
+            </div>
+            <span class="text-neon-green animate-pulse">[POLLING_OK]</span>
+          </div>
+
+          <div class="p-3 bg-cyber-950 rounded border border-slate-800 space-y-1.5 text-[11px]">
+            <p class="text-slate-500 font-mono">[2026-11-01 17:35:10] IMAP session connected to imap.googlemail.com:993</p>
+            <p class="text-slate-400 font-mono">[2026-11-01 17:35:11] FETCH 1 UNSEEN message id: &lt;9482.stripe.com&gt;</p>
+            <p class="text-neon-cyan font-mono">&gt; PARSER: Sender identified: "recruiting@stripe.com"</p>
+            <p class="text-neon-green font-mono">&gt; MATCH: Found application record #42 [Senior Systems Engineer]</p>
+            <p class="text-neon-amber font-mono">&gt; DETECTED: Stage pattern "invite for technical round"</p>
+            <p class="text-white font-mono font-bold">&gt; TRANSITION: APPLIED --&gt; INTERVIEWING [OK]</p>
+            <p class="text-slate-500 font-mono">[2026-11-01 17:35:12] Updated PostgreSQL applications_application table (took 1.4ms)</p>
+          </div>
+
+          <div class="pt-2 flex justify-between items-center text-[10px] text-slate-400">
+            <span>Daemon thread: #PID 38419</span>
+            <span class="text-neon-green font-bold">PostgreSQL: CONNECTED</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Deep Dive 03: CV Document Vault & Variant Control -->
+  <section id="documents" class="py-20 bg-cyber-900 border-t border-neon-green/20">
+    <div class="max-w-7xl mx-auto px-6 font-mono">
+      
+      <div class="text-center max-w-2xl mx-auto mb-14 space-y-2">
+        <span class="text-xs uppercase text-neon-amber font-bold tracking-widest">[MODULE 03: documents]</span>
+        <h2 class="text-3xl font-extrabold text-white font-sans tracking-tight">RESUME VARIANT MATRIX & REVISION CONTROL</h2>
+        <p class="text-xs text-slate-400 font-sans">
+          Never guess which resume variant won you the interview. Link specific PDF hashes directly to jobs.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <div class="hud-corner p-5 space-y-3">
+          <div class="flex justify-between items-center text-neon-cyan text-xs">
+            <span class="font-bold">CV_DISTRIBUTED_V4.PDF</span>
+            <i data-lucide="file-code" class="w-4 h-4"></i>
+          </div>
+          <p class="text-xs font-sans text-slate-400">
+            Tailored for backend infrastructure, Kubernetes, Go, PostgreSQL, high-throughput systems.
+          </p>
+          <div class="pt-3 border-t border-slate-800 flex justify-between text-[11px]">
+            <span class="text-slate-400">Applications: <strong>14 roles</strong></span>
+            <span class="text-neon-green font-bold">52% Response</span>
+          </div>
+        </div>
+
+        <div class="hud-corner p-5 space-y-3">
+          <div class="flex justify-between items-center text-neon-green text-xs">
+            <span class="font-bold">CV_FULLSTACK_REACT_V2.PDF</span>
+            <i data-lucide="file-text" class="w-4 h-4"></i>
+          </div>
+          <p class="text-xs font-sans text-slate-400">
+            Optimized for Next.js, Django REST, Tailwind, Product Engineering, Design Systems.
+          </p>
+          <div class="pt-3 border-t border-slate-800 flex justify-between text-[11px]">
+            <span class="text-slate-400">Applications: <strong>8 roles</strong></span>
+            <span class="text-neon-cyan font-bold">38% Response</span>
+          </div>
+        </div>
+
+        <div class="hud-corner p-5 space-y-3">
+          <div class="flex justify-between items-center text-neon-pink text-xs">
+            <span class="font-bold">CV_LEAD_ARCHITECT_V1.PDF</span>
+            <i data-lucide="award" class="w-4 h-4"></i>
+          </div>
+          <p class="text-xs font-sans text-slate-400">
+            Executive summary for Staff & Principal roles: engineering team leadership, roadmap strategy.
+          </p>
+          <div class="pt-3 border-t border-slate-800 flex justify-between text-[11px]">
+            <span class="text-slate-400">Applications: <strong>4 roles</strong></span>
+            <span class="text-neon-pink font-bold">75% Response</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Deep Dive 04: Funnel Telemetry & Negotiation Arbitrage -->
+  <section id="telemetry" class="py-20 max-w-7xl mx-auto px-6 font-mono">
+    <div class="hud-corner-cyan p-8 bg-cyber-900 shadow-neon-cyan">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 pb-4 border-b border-neon-cyan/20">
+        <div>
+          <span class="text-xs text-neon-pink font-bold uppercase tracking-wider">[MODULE 04: dashboard.telemetry]</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white font-sans mt-1">FUNNEL VELOCITY & OFFER ARBITRAGE</h2>
+        </div>
+        <span class="text-xs text-slate-400 mt-2 md:mt-0">Postgres Real-time Aggregation</span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center text-xs">
+        
+        <!-- Bars -->
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between mb-1">
+              <span class="text-slate-300 font-bold">APPLIED &rarr; SCREENING RATIO</span>
+              <span class="text-neon-green font-bold">58%</span>
+            </div>
+            <div class="w-full h-2 rounded bg-black overflow-hidden border border-slate-800">
+              <div class="h-full bg-neon-green" style="width: 58%"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between mb-1">
+              <span class="text-slate-300 font-bold">SCREENING &rarr; TECH ROUND</span>
+              <span class="text-neon-cyan font-bold">75%</span>
+            </div>
+            <div class="w-full h-2 rounded bg-black overflow-hidden border border-slate-800">
+              <div class="h-full bg-neon-cyan" style="width: 75%"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between mb-1">
+              <span class="text-slate-300 font-bold">TECH ROUND &rarr; FINAL STAGE</span>
+              <span class="text-neon-amber font-bold">66%</span>
+            </div>
+            <div class="w-full h-2 rounded bg-black overflow-hidden border border-slate-800">
+              <div class="h-full bg-neon-amber" style="width: 66%"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between mb-1">
+              <span class="text-slate-300 font-bold">FINAL &rarr; OFFER SIGNED</span>
+              <span class="text-neon-pink font-bold">50%</span>
+            </div>
+            <div class="w-full h-2 rounded bg-black overflow-hidden border border-slate-800">
+              <div class="h-full bg-neon-pink" style="width: 50%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metric Callout Card -->
+        <div class="p-6 bg-black/80 rounded border border-neon-cyan/40 space-y-3">
+          <div class="flex justify-between items-center text-[10px] text-slate-400">
+            <span>OFFER_ARBITRAGE_STATUS</span>
+            <span class="text-neon-green font-bold">MAX_LEVERAGE</span>
+          </div>
+          <div class="text-2xl font-bold text-white font-sans">
+            2 CONCURRENT OFFERS IN FLIGHT
+          </div>
+          <p class="text-slate-400 leading-relaxed font-sans text-xs">
+            Holding Stripe (€125k) and Spotify (€115k) concurrently gives you <span class="text-neon-green font-bold">+18.5% bargaining strength</span>. Datadog final round scheduled in 48h.
+          </p>
+          <div class="pt-2 flex items-center gap-2 text-neon-cyan text-[11px]">
+            <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+            <span>Recommended move: Counter-offer Spotify with Stripe benchmark</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Interactive Terminal Sandbox (CLI Experience) -->
+  <section id="terminal-cli" class="py-20 bg-cyber-950 border-t border-neon-green/20">
+    <div class="max-w-4xl mx-auto px-6 font-mono">
+      
+      <div class="mb-4 flex items-center justify-between">
+        <div class="flex items-center gap-2 text-xs text-neon-green">
+          <i data-lucide="terminal" class="w-4 h-4"></i>
+          <span>CAREER_HUB_INTERACTIVE_CLI // Type 'help' or click commands</span>
+        </div>
+        <span class="text-[10px] text-slate-500">PRESS ENTER TO EXECUTE</span>
+      </div>
+
+      <div class="p-5 bg-black rounded-lg border border-neon-green/40 shadow-neon-green text-xs space-y-3">
+        <!-- Output History Area -->
+        <div id="cliOutput" class="space-y-1 text-slate-300 min-h-[160px] max-h-[260px] overflow-y-auto pr-2">
+          <p class="text-neon-green font-bold">CAREER-HUB TERMINAL READY [Django 5.2 / PostgreSQL]</p>
+          <p class="text-slate-400">Available commands: <span class="text-neon-cyan">status</span>, <span class="text-neon-cyan">jobs</span>, <span class="text-neon-cyan">sync</span>, <span class="text-neon-cyan">clear</span></p>
+          <p class="text-slate-500">Type below or choose a quick shortcut...</p>
+        </div>
+
+        <!-- Input Row -->
+        <div class="flex items-center gap-2 pt-2 border-t border-slate-800">
+          <span class="text-neon-green font-bold">&gt;&gt;</span>
+          <input 
+            type="text" 
+            id="cliInput" 
+            placeholder="Type 'status' or 'sync'..." 
+            class="w-full bg-transparent text-white font-mono focus:outline-none placeholder-slate-600"
+            onkeydown="handleCliKey(event)"
+          />
+          <button onclick="runCliCommand()" class="px-3 py-1 bg-neon-green/20 text-neon-green border border-neon-green/40 hover:bg-neon-green hover:text-black rounded transition-colors text-[10px] font-bold">
+            EXEC
+          </button>
+        </div>
+
+        <!-- Command Shortcut Buttons -->
+        <div class="flex flex-wrap gap-2 pt-1 text-[10px]">
+          <span class="text-slate-500 self-center">Shortcuts:</span>
+          <button onclick="executeQuick('status')" class="px-2 py-0.5 rounded bg-cyber-900 border border-slate-700 hover:border-neon-cyan text-neon-cyan">status</button>
+          <button onclick="executeQuick('jobs')" class="px-2 py-0.5 rounded bg-cyber-900 border border-slate-700 hover:border-neon-green text-neon-green">jobs</button>
+          <button onclick="executeQuick('sync')" class="px-2 py-0.5 rounded bg-cyber-900 border border-slate-700 hover:border-neon-amber text-neon-amber">sync</button>
+          <button onclick="executeQuick('clear')" class="px-2 py-0.5 rounded bg-cyber-900 border border-slate-700 hover:border-slate-400 text-slate-400">clear</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-neon-green/20 bg-black py-10 font-mono text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+      
+      <div class="flex items-center gap-2">
+        <span class="text-white font-bold">CAREER<span class="text-neon-green">://</span>HUB</span>
+        <span>&bull;</span>
+        <span>STANDALONE DEV INTELLIGENCE ENGINE</span>
+      </div>
+
+      <div class="flex items-center gap-6 text-slate-400">
+        <a href="#pipeline" class="hover:text-neon-green">Pipeline</a>
+        <a href="#daemon" class="hover:text-neon-cyan">Daemon</a>
+        <a href="#documents" class="hover:text-neon-amber">Documents</a>
+        <a href="/admin/" class="hover:text-white">Django Admin</a>
+      </div>
+
+      <p class="text-[11px] text-slate-600">
+        LOCAL REPO &bull; NO SUBSCRIPTION &bull; FULL PRIVACY
+      </p>
+
+    </div>
+  </footer>
+
+  <!-- Terminal Client Scripts -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Live Clock Ticker
+    function updateClock() {
+      const now = new Date();
+      const el = document.getElementById('liveClock');
+      if (el) {
+        el.innerText = now.toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
+      }
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Cyber Toast Notification
+    function showCyberToast(msg, color = 'green') {
+      const mount = document.getElementById('cyberToastMount');
+      const toast = document.createElement('div');
+      
+      let border = 'border-neon-green/60 text-neon-green shadow-neon-green';
+      if (color === 'cyan') border = 'border-neon-cyan/60 text-neon-cyan shadow-neon-cyan';
+      if (color === 'pink') border = 'border-neon-pink/60 text-neon-pink shadow-neon-pink';
+
+      toast.className = `p-3.5 bg-black border ${border} rounded backdrop-blur-md shadow-2xl flex items-center gap-3 transition-all duration-300 transform translate-y-3 opacity-0`;
+      toast.innerHTML = `
+        <span class="w-2 h-2 rounded-full bg-current animate-ping"></span>
+        <span class="font-bold text-slate-200">[ALERT] ${msg}</span>
+      `;
+
+      mount.appendChild(toast);
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-3', 'opacity-0');
+      });
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+
+    // Interactive Demo Functions
+    const mockCompanies = [
+      { name: "CLOUDFLARE", role: "Systems Engineer (Workers)", pay: "€115k", tag: "REMOTE" },
+      { name: "GITHUB", role: "Staff Infrastructure Architect", pay: "€125k", tag: "HYBRID" },
+      { name: "FIGMA", role: "Senior WebGL Platform", pay: "€110k", tag: "ONSITE" },
+      { name: "SUPABASE", role: "Core Postgres Engineer", pay: "€120k", tag: "REMOTE" }
+    ];
+
+    function injectApplication() {
+      const col = document.getElementById('col-applied');
+      const item = mockCompanies[Math.floor(Math.random() * mockCompanies.length)];
+      
+      const card = document.createElement('div');
+      card.className = "p-3.5 rounded bg-cyber-900 border border-neon-green/60 transition-all cursor-pointer group shadow-hud-glow";
+      card.innerHTML = `
+        <div class="flex justify-between items-start">
+          <span class="text-neon-cyan font-bold tracking-wider">[${item.name}]</span>
+          <span class="text-[10px] text-neon-green font-mono">${item.pay}</span>
+        </div>
+        <h4 class="text-sm font-sans font-bold text-white group-hover:text-neon-green transition-colors mt-1">${item.role}</h4>
+        <div class="mt-3 pt-2 border-t border-slate-800 flex justify-between items-center text-[10px] text-slate-400">
+          <span class="text-neon-green font-bold">STATUS: INJECTED</span>
+          <span class="text-slate-500">Just now</span>
+        </div>
+      `;
+
+      col.prepend(card);
+      const badge = document.getElementById('badge-applied');
+      badge.innerText = String(parseInt(badge.innerText) + 1).padStart(2, '0');
+      
+      showCyberToast(`Injected target role: ${item.name} (${item.role})`, 'green');
+    }
+
+    function simulateDaemonEvent() {
+      const colScreening = document.getElementById('col-screening');
+      
+      const emailCard = document.createElement('div');
+      emailCard.className = "p-3.5 rounded bg-cyber-900 border border-neon-cyan/70 transition-all cursor-pointer group shadow-neon-cyan";
+      emailCard.innerHTML = `
+        <div class="flex justify-between items-start">
+          <span class="text-neon-cyan font-bold tracking-wider">[INBOUND_MAIL]</span>
+          <span class="text-[10px] text-neon-cyan font-mono">PARSED</span>
+        </div>
+        <h4 class="text-sm font-sans font-bold text-white mt-1">AWS Core Systems &bull; Screening Call</h4>
+        <div class="mt-2.5 p-2 rounded bg-black/60 border border-neon-cyan/30 text-[10px] text-neon-cyan flex items-center gap-1.5">
+          <i data-lucide="radio" class="w-3 h-3 text-neon-cyan"></i>
+          <span>Auto-Parsed via IMAP: Friday 11:00 CET</span>
+        </div>
+      `;
+
+      colScreening.prepend(emailCard);
+      lucide.createIcons();
+
+      const badge = document.getElementById('badge-screening');
+      badge.innerText = String(parseInt(badge.innerText) + 1).padStart(2, '0');
+
+      showCyberToast(`mail_daemon parsed incoming invite from AWS!`, 'cyan');
+    }
+
+    function purgeBoard() {
+      location.reload();
+    }
+
+    // CLI Simulation Logic
+    function handleCliKey(e) {
+      if (e.key === 'Enter') {
+        runCliCommand();
+      }
+    }
+
+    function executeQuick(cmd) {
+      document.getElementById('cliInput').value = cmd;
+      runCliCommand();
+    }
+
+    function runCliCommand() {
+      const input = document.getElementById('cliInput');
+      const val = input.value.trim().toLowerCase();
+      const output = document.getElementById('cliOutput');
+      if (!val) return;
+
+      const pCmd = document.createElement('p');
+      pCmd.className = "text-white font-bold";
+      pCmd.innerText = `>> ${val}`;
+      output.appendChild(pCmd);
+
+      const pRes = document.createElement('p');
+      if (val === 'status') {
+        pRes.className = "text-neon-green";
+        pRes.innerHTML = "[OK] 24 roles active | 1 Offer deck signed | Mail daemon running at 1.2ms latency.";
+      } else if (val === 'jobs') {
+        pRes.className = "text-neon-cyan";
+        pRes.innerHTML = "[JOBS] Stripe (€125k), Spotify (€115k), Datadog (Remote), Vercel (€110k), Linear (€100k).";
+      } else if (val === 'sync') {
+        pRes.className = "text-neon-amber";
+        pRes.innerHTML = "[SYNC] Connecting IMAP worker... 0 new unread messages. PostgreSQL cache flushed.";
+        showCyberToast("IMAP Mailbox synced successfully.", "cyan");
+      } else if (val === 'clear') {
+        output.innerHTML = "";
+        input.value = "";
+        return;
+      } else if (val === 'help') {
+        pRes.className = "text-slate-400";
+        pRes.innerHTML = "Commands: status, jobs, sync, clear, help";
+      } else {
+        pRes.className = "text-neon-pink";
+        pRes.innerText = `Command not recognized: '${val}'. Type 'help' for options.`;
+      }
+
+      output.appendChild(pRes);
+      output.scrollTop = output.scrollHeight;
+      input.value = "";
+    }
+  </script>
+</body>
+</html>
