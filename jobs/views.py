@@ -1,7 +1,10 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.shortcuts import render
+from django.http import HttpResponseBadRequest
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_POST
 
 from .models import JobCategory, JobOffer, JobStatus
 
@@ -68,3 +71,71 @@ def job_list(request):
         "jobs/job_list.html",
         context,
     )
+
+@login_required
+def job_detail(request, pk):
+    job = get_object_or_404(
+        JobOffer,
+        pk=pk,
+    )
+
+    application = getattr(
+        job,
+        "application",
+        None,
+    )
+
+    context = {
+        "job": job,
+        "application": application,
+        "statuses": JobStatus.choices,
+    }
+
+    return render(
+        request,
+        "jobs/job_detail.html",
+        context,
+    )
+
+@login_required
+@require_POST
+def job_status_update(request, pk):
+    job = get_object_or_404(
+        JobOffer,
+        pk=pk,
+    )
+
+    new_status = request.POST.get(
+        "status",
+        "",
+    )
+
+    valid_statuses = {
+        value
+        for value, _ in JobStatus.choices
+    }
+
+    if new_status not in valid_statuses:
+        return HttpResponseBadRequest(
+            "Ungültiger Status."
+        )
+
+    job.status = new_status
+
+    job.save(
+        update_fields=[
+            "status",
+            "updated_at",
+        ]
+    )
+
+    messages.success(
+        request,
+        "Status wurde aktualisiert.",
+    )
+
+    return redirect(
+        "jobs:detail",
+        pk=job.pk,
+    )
+    

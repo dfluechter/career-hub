@@ -1,0 +1,356 @@
+{% extends "base.html" %}
+
+{% block title %}
+Bewerbungen | Career Hub
+{% endblock %}
+
+{% block content %}
+
+<div class="mx-auto max-w-7xl">
+
+    <!-- Header -->
+    <div class="mb-8">
+
+        <p class="text-sm font-medium text-blue-400">
+            Bewerbungsmanagement
+        </p>
+
+        <h1 class="mt-1 text-3xl font-bold tracking-tight">
+            Bewerbungen
+        </h1>
+
+        <p class="mt-2 text-slate-400">
+            {{ application_count }} Bewerbungen
+        </p>
+
+    </div>
+
+
+    <!-- Applications -->
+    <div class="space-y-4">
+
+        {% for application in applications %}
+
+            <article
+                class="
+                    rounded-2xl
+                    border
+                    border-slate-800
+                    bg-slate-900
+                    p-5
+                "
+            >
+
+                <div
+                    class="
+                        flex
+                        flex-col
+                        gap-6
+                        lg:flex-row
+                        lg:items-start
+                        lg:justify-between
+                    "
+                >
+
+                    <!-- Job information -->
+                    <div class="min-w-0">
+
+                        <div class="mb-3 flex flex-wrap gap-2">
+
+                            <span
+                                class="
+                                    rounded-full
+                                    bg-blue-500/10
+                                    px-2.5
+                                    py-1
+                                    text-xs
+                                    font-medium
+                                    text-blue-400
+                                "
+                            >
+                                {{ application.get_status_display }}
+                            </span>
+
+                            <span
+                                class="
+                                    rounded-full
+                                    bg-slate-800
+                                    px-2.5
+                                    py-1
+                                    text-xs
+                                    text-slate-300
+                                "
+                            >
+                                {{ application.job.get_category_display }}
+                            </span>
+
+                        </div>
+
+
+                        <h2 class="text-lg font-semibold">
+
+                            <a
+                                href="{% url 'jobs:detail' application.job.pk %}"
+                                class="
+                                    text-slate-100
+                                    transition
+                                    hover:text-blue-400
+                                "
+                            >
+                                {{ application.job.title }}
+                            </a>
+
+                        </h2>
+
+
+                        {% if application.job.company %}
+
+                            <p class="mt-1 text-slate-300">
+                                {{ application.job.company }}
+                            </p>
+
+                        {% endif %}
+
+
+                        {% if application.job.location %}
+
+                            <p class="mt-2 text-sm text-slate-500">
+                                {{ application.job.location }}
+                            </p>
+
+                        {% endif %}
+
+
+                        <div
+                            class="
+                                mt-4
+                                flex
+                                flex-wrap
+                                gap-x-4
+                                gap-y-2
+                                text-sm
+                                text-slate-500
+                            "
+                        >
+
+                            <span>
+                                Erstellt:
+                                {{ application.created_at|date:"d.m.Y H:i" }}
+                            </span>
+
+                            {% if application.submitted_at %}
+
+                                <span>
+                                    Beworben:
+                                    {{ application.submitted_at|date:"d.m.Y H:i" }}
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Documents -->
+                    <div
+                        class="
+                            w-full
+                            rounded-xl
+                            bg-slate-800
+                            p-4
+                            lg:max-w-sm
+                        "
+                    >
+
+                        <h3 class="text-sm font-semibold text-slate-200">
+                            Bewerbungsunterlagen
+                        </h3>
+
+
+                        <!-- CV -->
+                        <div
+                            class="
+                                mt-4
+                                border-b
+                                border-slate-700
+                                pb-4
+                            "
+                        >
+
+                            <p class="text-xs uppercase tracking-wide text-slate-500">
+                                Lebenslauf
+                            </p>
+
+                            {% if application.cv %}
+
+                                <p class="mt-1 text-sm text-slate-200">
+                                    {{ application.cv.title }}
+                                </p>
+
+                                <a
+                                    href="{{ application.cv.file.url }}"
+                                    class="
+                                        mt-2
+                                        inline-flex
+                                        text-sm
+                                        font-medium
+                                        text-blue-400
+                                        hover:text-blue-300
+                                    "
+                                >
+                                    Word-Datei öffnen →
+                                </a>
+
+                            {% else %}
+
+                                <p class="mt-1 text-sm text-amber-400">
+                                    Nicht zugeordnet
+                                </p>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- Cover letter -->
+                        <div class="pt-4">
+
+                            <p class="text-xs uppercase tracking-wide text-slate-500">
+                                Anschreiben
+                            </p>
+
+                            {% if application.cover_letter %}
+
+                                <p class="mt-1 text-sm text-slate-200">
+                                    {{ application.cover_letter.title }}
+                                </p>
+
+                                <a
+                                    href="{{ application.cover_letter.file.url }}"
+                                    class="
+                                        mt-2
+                                        inline-flex
+                                        text-sm
+                                        font-medium
+                                        text-blue-400
+                                        hover:text-blue-300
+                                    "
+                                >
+                                    Word-Datei öffnen →
+                                </a>
+
+                            {% else %}
+
+                                <p class="mt-1 text-sm text-amber-400">
+                                    Nicht zugeordnet
+                                </p>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Actions -->
+                <div
+                    class="
+                        mt-5
+                        flex
+                        flex-wrap
+                        gap-3
+                        border-t
+                        border-slate-800
+                        pt-5
+                    "
+                >
+
+                    <a
+                        href="{% url 'jobs:detail' application.job.pk %}"
+                        class="
+                            rounded-lg
+                            border
+                            border-slate-700
+                            px-4
+                            py-2.5
+                            text-sm
+                            font-medium
+                            text-slate-300
+                            transition
+                            hover:bg-slate-800
+                            hover:text-white
+                        "
+                    >
+                        Stellenangebot öffnen
+                    </a>
+
+                </div>
+
+            </article>
+
+
+        {% empty %}
+
+            <!-- Empty state -->
+            <div
+                class="
+                    rounded-2xl
+                    border
+                    border-dashed
+                    border-slate-700
+                    bg-slate-900
+                    px-6
+                    py-16
+                    text-center
+                "
+            >
+
+                <h2 class="font-semibold">
+                    Noch keine Bewerbungen
+                </h2>
+
+                <p
+                    class="
+                        mx-auto
+                        mt-2
+                        max-w-md
+                        text-sm
+                        text-slate-500
+                    "
+                >
+                    Öffne ein Stellenangebot und wähle dort
+                    „Bewerbung vorbereiten“, um eine Bewerbung
+                    anzulegen.
+                </p>
+
+                <a
+                    href="{% url 'jobs:list' %}"
+                    class="
+                        mt-5
+                        inline-flex
+                        rounded-lg
+                        bg-blue-600
+                        px-4
+                        py-2.5
+                        text-sm
+                        font-semibold
+                        text-white
+                        transition
+                        hover:bg-blue-500
+                    "
+                >
+                    Zu den Stellenangeboten
+                </a>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

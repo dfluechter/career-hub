@@ -411,10 +411,34 @@ Stellenangebote | Career Hub
                             class="
                                 text-lg
                                 font-semibold
-                                text-slate-100
                             "
                         >
-                            {{ job.title }}
+                            <a
+                                href="{% url 'jobs:detail' job.pk %}"
+                                class="
+                                    text-slate-100
+                                    transition
+                                    hover:text-blue-400
+                                "
+                            >
+                                {{ job.title }}
+                            </a>
+                            <a
+                                href="{% url 'jobs:detail' job.pk %}"
+                                class="
+                                    rounded-lg
+                                    border
+                                    border-slate-700
+                                    px-4
+                                    py-2.5
+                                    text-sm
+                                    font-medium
+                                    text-slate-300
+                                    hover:bg-slate-800
+                                "
+                            >
+                                Details
+                            </a>
                         </h2>
 
 

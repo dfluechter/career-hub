@@ -1,0 +1,506 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+{{ job.title }} | Career Hub
+{% endblock %}
+
+
+{% block content %}
+
+<div class="mx-auto max-w-5xl">
+
+    <!-- Back -->
+
+    <div class="mb-6">
+
+        <a
+            href="{% url 'jobs:list' %}"
+            class="
+                text-sm
+                font-medium
+                text-slate-400
+                transition
+                hover:text-white
+            "
+        >
+            ← Zurück zu den Stellenangeboten
+        </a>
+
+    </div>
+
+
+    <!-- Header -->
+
+    <header
+        class="
+            rounded-2xl
+            border
+            border-slate-800
+            bg-slate-900
+            p-6
+        "
+    >
+
+        <div
+            class="
+                flex
+                flex-col
+                gap-5
+                lg:flex-row
+                lg:items-start
+                lg:justify-between
+            "
+        >
+
+            <div class="min-w-0">
+
+                <div
+                    class="
+                        mb-4
+                        flex
+                        flex-wrap
+                        gap-2
+                    "
+                >
+
+                    <span
+                        class="
+                            rounded-full
+                            bg-blue-500/10
+                            px-3
+                            py-1
+                            text-xs
+                            font-medium
+                            text-blue-400
+                        "
+                    >
+                        {{ job.get_category_display }}
+                    </span>
+
+                    <span
+                        class="
+                            rounded-full
+                            bg-slate-800
+                            px-3
+                            py-1
+                            text-xs
+                            text-slate-300
+                        "
+                    >
+                        {{ job.get_status_display }}
+                    </span>
+
+                </div>
+
+
+                <h1
+                    class="
+                        text-2xl
+                        font-bold
+                        tracking-tight
+                        sm:text-3xl
+                    "
+                >
+                    {{ job.title }}
+                </h1>
+
+
+                {% if job.company %}
+
+                    <p
+                        class="
+                            mt-2
+                            text-lg
+                            text-slate-300
+                        "
+                    >
+                        {{ job.company }}
+                    </p>
+
+                {% endif %}
+
+
+                {% if job.location %}
+
+                    <p class="mt-2 text-slate-400">
+                        {{ job.location }}
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+
+            {% if job.job_url %}
+
+                <a
+                    href="{{ job.job_url }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="
+                        shrink-0
+                        rounded-lg
+                        bg-blue-600
+                        px-4
+                        py-2.5
+                        text-center
+                        text-sm
+                        font-semibold
+                        text-white
+                        transition
+                        hover:bg-blue-500
+                    "
+                >
+                    Stellenanzeige öffnen ↗
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </header>
+
+
+    <div
+        class="
+            mt-6
+            grid
+            gap-6
+            lg:grid-cols-3
+        "
+    >
+
+        <!-- Information -->
+
+        <section
+            class="
+                rounded-2xl
+                border
+                border-slate-800
+                bg-slate-900
+                p-6
+                lg:col-span-2
+            "
+        >
+
+            <h2 class="text-lg font-semibold">
+                Informationen
+            </h2>
+
+
+            <dl
+                class="
+                    mt-6
+                    divide-y
+                    divide-slate-800
+                "
+            >
+
+                <div
+                    class="
+                        grid
+                        gap-2
+                        py-4
+                        sm:grid-cols-3
+                    "
+                >
+
+                    <dt class="text-sm text-slate-500">
+                        Kategorie
+                    </dt>
+
+                    <dd
+                        class="
+                            text-sm
+                            text-slate-200
+                            sm:col-span-2
+                        "
+                    >
+                        {{ job.get_category_display }}
+                    </dd>
+
+                </div>
+
+
+                <div
+                    class="
+                        grid
+                        gap-2
+                        py-4
+                        sm:grid-cols-3
+                    "
+                >
+
+                    <dt class="text-sm text-slate-500">
+                        Quelle
+                    </dt>
+
+                    <dd
+                        class="
+                            text-sm
+                            text-slate-200
+                            sm:col-span-2
+                        "
+                    >
+                        {% if job.source %}
+                            {{ job.source }}
+                        {% else %}
+                            –
+                        {% endif %}
+                    </dd>
+
+                </div>
+
+
+                <div
+                    class="
+                        grid
+                        gap-2
+                        py-4
+                        sm:grid-cols-3
+                    "
+                >
+
+                    <dt class="text-sm text-slate-500">
+                        Postfach
+                    </dt>
+
+                    <dd
+                        class="
+                            break-all
+                            text-sm
+                            text-slate-200
+                            sm:col-span-2
+                        "
+                    >
+                        {{ job.source_mailbox }}
+                    </dd>
+
+                </div>
+
+
+                <div
+                    class="
+                        grid
+                        gap-2
+                        py-4
+                        sm:grid-cols-3
+                    "
+                >
+
+                    <dt class="text-sm text-slate-500">
+                        Eingegangen
+                    </dt>
+
+                    <dd
+                        class="
+                            text-sm
+                            text-slate-200
+                            sm:col-span-2
+                        "
+                    >
+                        {{ job.received_at|date:"d.m.Y H:i" }}
+                    </dd>
+
+                </div>
+
+
+                <div
+                    class="
+                        grid
+                        gap-2
+                        py-4
+                        sm:grid-cols-3
+                    "
+                >
+
+                    <dt class="text-sm text-slate-500">
+                        E-Mail-ID
+                    </dt>
+
+                    <dd
+                        class="
+                            break-all
+                            font-mono
+                            text-xs
+                            text-slate-400
+                            sm:col-span-2
+                        "
+                    >
+                        {{ job.source_message_id }}
+                    </dd>
+
+                </div>
+
+            </dl>
+
+        </section>
+
+
+        <!-- Status -->
+
+        <aside
+            class="
+                rounded-2xl
+                border
+                border-slate-800
+                bg-slate-900
+                p-6
+            "
+        >
+
+            <h2 class="font-semibold">
+                Bewerbungsstatus
+            </h2>
+
+            <p class="mt-2 text-sm text-slate-500">
+                Aktuellen Status der Stelle verwalten.
+            </p>
+
+
+            <form
+                method="post"
+                action="{% url 'jobs:status-update' job.pk %}"
+                class="mt-6"
+            >
+
+                {% csrf_token %}
+
+
+                <label
+                    for="status"
+                    class="
+                        mb-2
+                        block
+                        text-sm
+                        font-medium
+                        text-slate-300
+                    "
+                >
+                    Status
+                </label>
+
+
+                <select
+                    id="status"
+                    name="status"
+                    class="
+                        w-full
+                        rounded-lg
+                        border
+                        border-slate-700
+                        bg-slate-950
+                        px-3
+                        py-2.5
+                        text-sm
+                        text-slate-100
+                    "
+                >
+
+                    {% for value, label in statuses %}
+
+                        <option
+                            value="{{ value }}"
+                            {% if job.status == value %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ label }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+
+                <button
+                    type="submit"
+                    class="
+                        mt-4
+                        w-full
+                        rounded-lg
+                        bg-blue-600
+                        px-4
+                        py-2.5
+                        text-sm
+                        font-semibold
+                        text-white
+                        transition
+                        hover:bg-blue-500
+                    "
+                >
+                    Status speichern
+                </button>
+
+            </form>
+
+            {% if not job.application %}
+
+            <form
+                method="post"
+                action="{% url 'applications:create' job.pk %}"
+                class="mt-6"
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="
+                        w-full
+                        rounded-lg
+                        bg-emerald-600
+                        px-4
+                        py-2.5
+                        text-sm
+                        font-semibold
+                        text-white
+                        transition
+                        hover:bg-emerald-500
+                    "
+                >
+                    Bewerbung vorbereiten
+                </button>
+
+            </form>
+
+            {% else %}
+
+                <div
+                    class="
+                        mt-6
+                        rounded-xl
+                        border
+                        border-emerald-500/20
+                        bg-emerald-500/10
+                        p-4
+                    "
+                >
+
+                    <p
+                        class="
+                            text-sm
+                            font-medium
+                            text-emerald-300
+                        "
+                    >
+                        Bewerbung vorhanden
+                    </p>
+
+                    <p class="mt-1 text-sm text-slate-400">
+                        Status:
+                        {{ job.application.get_status_display }}
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </aside>
+
+    </div>
+
+</div>
+
+{% endblock %}

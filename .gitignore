@@ -31,3 +31,6 @@ htmlcov/
 
 # Ruff
 .ruff_cache/
+
+# Local Tailwind CLI
+.django_tailwind_cli/

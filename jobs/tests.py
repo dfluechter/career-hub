@@ -48,9 +48,22 @@ class JobListViewTests(TestCase):
 
         self.assertEqual(response.status_code, 302)
 
-    def test_job_list_displays_jobs(self):
+    def test_job_detail_displays_job(self):
         response = self.client.get(
-            reverse("jobs:list")
+            reverse(
+                "jobs:detail",
+                args=[self.developer_job.pk],
+            )
+        )
+
+        self.assertEqual(
+            response.status_code,
+            200,
+        )
+
+        self.assertEqual(
+            response.context["job"],
+            self.developer_job,
         )
 
         self.assertContains(
@@ -58,9 +71,17 @@ class JobListViewTests(TestCase):
             "Python Developer",
         )
 
-        self.assertContains(
-            response,
-            "Data Analyst",
+    def test_job_detail_returns_404(self):
+        response = self.client.get(
+            reverse(
+                "jobs:detail",
+                args=[999999],
+            )
+        )
+
+        self.assertEqual(
+            response.status_code,
+            404,
         )
 
     def test_category_filter(self):
@@ -176,3 +197,79 @@ class JobListViewTests(TestCase):
 
         self.assertIn(self.developer_job, jobs)
         self.assertIn(self.data_job, jobs)
+
+    def test_job_detail_requires_login(self):
+        self.client.logout()
+
+        response = self.client.get(
+            reverse(
+                "jobs:detail",
+                args=[self.developer_job.pk],
+            )
+        )
+
+        self.assertEqual(
+            response.status_code,
+            302,
+        )
+
+    def test_status_can_be_updated(self):
+        response = self.client.post(
+            reverse(
+                "jobs:status-update",
+                args=[self.developer_job.pk],
+            ),
+            {
+                "status": JobStatus.SAVED,
+            },
+        )
+
+        self.assertEqual(
+            response.status_code,
+            302,
+        )
+
+        self.developer_job.refresh_from_db()
+
+        self.assertEqual(
+            self.developer_job.status,
+            JobStatus.SAVED,
+        )
+
+    def test_invalid_status_is_rejected(self):
+        original_status = self.developer_job.status
+
+        response = self.client.post(
+            reverse(
+                "jobs:status-update",
+                args=[self.developer_job.pk],
+            ),
+            {
+                "status": "invalid-status",
+            },
+        )
+
+        self.assertEqual(
+            response.status_code,
+            400,
+        )
+
+        self.developer_job.refresh_from_db()
+
+        self.assertEqual(
+            self.developer_job.status,
+            original_status,
+        )
+
+    def test_status_update_rejects_get(self):
+        response = self.client.get(
+            reverse(
+                "jobs:status-update",
+                args=[self.developer_job.pk],
+            )
+        )
+
+        self.assertEqual(
+            response.status_code,
+            405,
+        )
