@@ -437,7 +437,9 @@ other
 
 ### Importer
 
-**Status: Phase 4.2 in Arbeit.** Der nächste Schritt überführt `ParsedJobEmail` duplikatsicher in `JobOffer`. Die `source_message_id` ist bereits als eindeutige Datenbankkennung im Job-Modell vorgesehen.
+**Status: Phase 4.2 abgeschlossen.** Der Importer überführt ParsedJobEmail duplikatsicher
+in JobOffer. Die normalisierte source_message_id
+verhindert doppelte Imports derselben E-Mail.
 
 ## 🔎 Django-Shell
 
@@ -620,7 +622,7 @@ Phase 2  JobOffer / Filter / Details     ✅
 Phase 3  Applications / Documents        ✅
           Zertifikate                    ✅
 Phase 4.1 Mail-Parser / Classifier       ✅
-Phase 4.2 Duplikatsicherer Importer      🚧
+Phase 4.2 Duplikatsicherer Importer      ✅
 Phase 4.3 Management Command             ⏳
 Phase 4.4 Mail-Provider-Anbindung        ⏳
 ```
@@ -629,10 +631,10 @@ Phase 4.4 Mail-Provider-Anbindung        ⏳
 
 ```text
 Django-Systemcheck                         ✅
-Jobs / Applications / Documents / Certs   ✅
+Jobs / Applications / Documents / Certs    ✅
 Mail-Classifier                            ✅ 6 Tests
 Mail-Parser                                ✅ 6 Tests
-Gesamtsuite                                ✅ 47 Tests
+Gesamtsuite                                ✅ 54 Tests
 Zertifikatsverwaltung                      ✅
 Dokumentverwaltung                         ✅
 Phase 4.2 Importer                         🚧 als Nächstes
