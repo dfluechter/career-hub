@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'applications',
     'documents',
     'mail_import',
+    # Zertifikats-Verwaltung
+    'certificates',
 ]
 
 MIDDLEWARE = [

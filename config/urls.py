@@ -24,6 +24,10 @@ urlpatterns = [
         "documents/",
         include("documents.urls"),
     ),
+    path(
+        "certificates/",
+        include("certificates.urls"),
+    ),
 ]
 
 if settings.DEBUG:
