@@ -1,0 +1,54 @@
+# ---------------------------------------------------------
+# Career Hub - Git attributes
+# ---------------------------------------------------------
+
+# Automatically detect text files and normalize them.
+* text=auto
+
+# Source code
+*.py text eol=lf
+*.pyi text eol=lf
+
+# Django / Web
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+
+# Project configuration
+*.toml text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.ini text eol=lf
+*.cfg text eol=lf
+
+# Documentation
+*.md text eol=lf
+*.txt text eol=lf
+
+# Environment templates
+.env.example text eol=lf
+*.env.example text eol=lf
+
+# Shell scripts
+*.sh text eol=lf
+
+# Windows-specific scripts
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Lock files
+uv.lock text eol=lf
+
+# Binary documents
+*.pdf binary
+*.docx binary
+
+# Images
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
