@@ -1,5 +1,5 @@
 # 💼 Career Hub
-
+docs/images/career-hub-hero.png
 > Persönliches Bewerbungsmanagement mit Django, PostgreSQL, Tailwind CSS und einem modularen Mail-Import.
 
 ## 🚀 Überblick
@@ -623,7 +623,7 @@ Phase 3  Applications / Documents        ✅
           Zertifikate                    ✅
 Phase 4.1 Mail-Parser / Classifier       ✅
 Phase 4.2 Duplikatsicherer Importer      ✅
-Phase 4.3 Management Command             ⏳
+Phase 4.3 import_jobs Command            ✅
 Phase 4.4 Mail-Provider-Anbindung        ⏳
 ```
 
@@ -632,12 +632,10 @@ Phase 4.4 Mail-Provider-Anbindung        ⏳
 ```text
 Django-Systemcheck                         ✅
 Jobs / Applications / Documents / Certs    ✅
-Mail-Classifier                            ✅ 6 Tests
-Mail-Parser                                ✅ 6 Tests
-Gesamtsuite                                ✅ 54 Tests
+Gesamtsuite                                ✅ 63 Tests
 Zertifikatsverwaltung                      ✅
 Dokumentverwaltung                         ✅
-Phase 4.2 Importer                         🚧 als Nächstes
+Phase 4.4 Mail-Provider-Anbindung          🚧 als Nächstes
 ```
 
 Letzter im Gespräch bestätigter GitHub-Commit für die Zertifikatsverwaltung:
