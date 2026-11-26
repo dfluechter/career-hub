@@ -20,6 +20,10 @@ urlpatterns = [
         "applications/",
         include("applications.urls"),
     ),
+    path(
+        "documents/",
+        include("documents.urls"),
+    ),
 ]
 
 if settings.DEBUG:

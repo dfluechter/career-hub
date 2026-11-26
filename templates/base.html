@@ -4,6 +4,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
@@ -18,27 +19,37 @@
     {% tailwind_css %}
 </head>
 
+
 <body class="min-h-screen bg-slate-950 text-slate-100">
 
     <div class="min-h-screen lg:flex">
 
-        <!-- Sidebar -->
+        <!-- =====================================================
+             Sidebar
+        ====================================================== -->
+
         <aside
             class="
-                border-b border-slate-800
+                border-b
+                border-slate-800
                 bg-slate-900
                 lg:min-h-screen
                 lg:w-64
+                lg:shrink-0
                 lg:border-b-0
                 lg:border-r
             "
         >
+
+            <!-- Logo / Brand -->
+
             <div class="p-6">
 
                 <a
                     href="{% url 'dashboard:index' %}"
                     class="block"
                 >
+
                     <span
                         class="
                             text-xs
@@ -57,84 +68,170 @@
                             block
                             text-xl
                             font-bold
+                            text-slate-100
                         "
                     >
                         Career Hub
                     </span>
+
                 </a>
 
             </div>
+
+
+            <!-- Navigation -->
 
             <nav
                 class="space-y-1 px-3 pb-6"
                 aria-label="Hauptnavigation"
             >
 
-            <a
-                href="{% url 'dashboard:index' %}"
-                class="
-                    block rounded-lg px-4 py-3 text-sm font-medium transition
-                    {% if request.resolver_match.namespace == 'dashboard' %}
-                        bg-blue-600 text-white
-                    {% else %}
-                        text-slate-300 hover:bg-slate-800 hover:text-white
-                    {% endif %}
-                "
-            >
-                Dashboard
-            </a>
+                <!-- Dashboard -->
+
+                <a
+                    href="{% url 'dashboard:index' %}"
+                    class="
+                        block
+                        rounded-lg
+                        px-4
+                        py-3
+                        text-sm
+                        font-medium
+                        transition
+
+                        {% if request.resolver_match.namespace == 'dashboard' %}
+                            bg-blue-600
+                            text-white
+                        {% else %}
+                            text-slate-300
+                            hover:bg-slate-800
+                            hover:text-white
+                        {% endif %}
+                    "
+                >
+                    Dashboard
+                </a>
+
+
+                <!-- Stellenangebote -->
 
                 <a
                     href="{% url 'jobs:list' %}"
                     class="
-                        block rounded-lg px-4 py-3 text-sm font-medium transition
+                        block
+                        rounded-lg
+                        px-4
+                        py-3
+                        text-sm
+                        font-medium
+                        transition
+
                         {% if request.resolver_match.namespace == 'jobs' %}
-                            bg-blue-600 text-white
+                            bg-blue-600
+                            text-white
                         {% else %}
-                            text-slate-300 hover:bg-slate-800 hover:text-white
+                            text-slate-300
+                            hover:bg-slate-800
+                            hover:text-white
                         {% endif %}
                     "
                 >
                     Stellenangebote
                 </a>
 
-                <span
+
+                <!-- Bewerbungen -->
+
+                <a
+                    href="{% url 'applications:list' %}"
                     class="
                         block
                         rounded-lg
                         px-4
                         py-3
                         text-sm
-                        text-slate-400
+                        font-medium
+                        transition
+
+                        {% if request.resolver_match.namespace == 'applications' %}
+                            bg-blue-600
+                            text-white
+                        {% else %}
+                            text-slate-300
+                            hover:bg-slate-800
+                            hover:text-white
+                        {% endif %}
                     "
                 >
                     Bewerbungen
-                </span>
+                </a>
 
-                <span
+
+                <!-- Dokumente -->
+
+                <a
+                    href="{% url 'documents:list' %}"
                     class="
                         block
                         rounded-lg
                         px-4
                         py-3
                         text-sm
-                        text-slate-400
+                        font-medium
+                        transition
+
+                        {% if request.resolver_match.namespace == 'documents' %}
+                            bg-blue-600
+                            text-white
+                        {% else %}
+                            text-slate-300
+                            hover:bg-slate-800
+                            hover:text-white
+                        {% endif %}
                     "
                 >
                     Dokumente
-                </span>
+                </a>
+
+
+                <!-- Zertifikate
+                     Noch nicht verlinken, solange keine
+                     certificates:list Route existiert. -->
 
                 <span
                     class="
-                        block
+                        flex
+                        cursor-not-allowed
+                        items-center
+                        justify-between
                         rounded-lg
                         px-4
                         py-3
                         text-sm
-                        text-slate-400
+                        text-slate-500
                     "
+                    title="Zertifikatsverwaltung folgt"
                 >
-                    Zertifikate
+
+                    <span>
+                        Zertifikate
+                    </span>
+
+                    <span
+                        class="
+                            rounded-full
+                            bg-slate-800
+                            px-2
+                            py-0.5
+                            text-[10px]
+                            uppercase
+                            tracking-wide
+                            text-slate-500
+                        "
+                    >
+                        bald
+                    </span>
+
                 </span>
 
             </nav>
@@ -142,8 +239,15 @@
         </aside>
 
 
-        <!-- Main area -->
+        <!-- =====================================================
+             Main Area
+        ====================================================== -->
+
         <div class="min-w-0 flex-1">
+
+            <!-- =================================================
+                 Topbar
+            ================================================== -->
 
             <header
                 class="
@@ -161,9 +265,11 @@
             >
 
                 <div>
+
                     <p class="text-sm text-slate-400">
                         Bewerbungsmanagement
                     </p>
+
                 </div>
 
 
@@ -171,21 +277,76 @@
 
                     <div class="flex items-center gap-4">
 
-                        <span
+                        <!-- Username -->
+
+                        <div
                             class="
                                 hidden
-                                text-sm
-                                text-slate-300
+                                text-right
                                 sm:block
                             "
                         >
-                            {{ request.user.username }}
-                        </span>
+
+                            <p
+                                class="
+                                    text-sm
+                                    font-medium
+                                    text-slate-200
+                                "
+                            >
+                                {{ request.user.username }}
+                            </p>
+
+                            {% if request.user.is_superuser %}
+
+                                <p
+                                    class="
+                                        text-xs
+                                        text-slate-500
+                                    "
+                                >
+                                    Administrator
+                                </p>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- Admin -->
+
+                        {% if request.user.is_staff %}
+
+                            <a
+                                href="{% url 'admin:index' %}"
+                                class="
+                                    hidden
+                                    rounded-lg
+                                    border
+                                    border-slate-700
+                                    px-3
+                                    py-2
+                                    text-sm
+                                    text-slate-300
+                                    transition
+                                    hover:border-slate-500
+                                    hover:bg-slate-800
+                                    md:inline-flex
+                                "
+                            >
+                                Admin
+                            </a>
+
+                        {% endif %}
+
+
+                        <!-- Logout -->
 
                         <form
                             method="post"
                             action="{% url 'logout' %}"
                         >
+
                             {% csrf_token %}
 
                             <button
@@ -201,10 +362,12 @@
                                     transition
                                     hover:border-slate-500
                                     hover:bg-slate-800
+                                    hover:text-white
                                 "
                             >
                                 Abmelden
                             </button>
+
                         </form>
 
                     </div>
@@ -214,28 +377,99 @@
             </header>
 
 
+            <!-- =================================================
+                 Page Content
+            ================================================== -->
+
             <main class="p-4 sm:p-6 lg:p-8">
+
+                <!-- Django Messages -->
 
                 {% if messages %}
 
-                    <div class="mb-6 space-y-3">
+                    <div
+                        class="mb-6 space-y-3"
+                        aria-live="polite"
+                    >
 
                         {% for message in messages %}
 
-                            <div
-                                class="
-                                    rounded-xl
-                                    border
-                                    border-emerald-500/20
-                                    bg-emerald-500/10
-                                    px-4
-                                    py-3
-                                    text-sm
-                                    text-emerald-300
-                                "
-                            >
-                                {{ message }}
-                            </div>
+                            {% if message.tags == "error" %}
+
+                                <div
+                                    class="
+                                        rounded-xl
+                                        border
+                                        border-red-500/20
+                                        bg-red-500/10
+                                        px-4
+                                        py-3
+                                        text-sm
+                                        text-red-300
+                                    "
+                                    role="alert"
+                                >
+                                    {{ message }}
+                                </div>
+
+
+                            {% elif message.tags == "warning" %}
+
+                                <div
+                                    class="
+                                        rounded-xl
+                                        border
+                                        border-amber-500/20
+                                        bg-amber-500/10
+                                        px-4
+                                        py-3
+                                        text-sm
+                                        text-amber-300
+                                    "
+                                    role="status"
+                                >
+                                    {{ message }}
+                                </div>
+
+
+                            {% elif message.tags == "info" %}
+
+                                <div
+                                    class="
+                                        rounded-xl
+                                        border
+                                        border-blue-500/20
+                                        bg-blue-500/10
+                                        px-4
+                                        py-3
+                                        text-sm
+                                        text-blue-300
+                                    "
+                                    role="status"
+                                >
+                                    {{ message }}
+                                </div>
+
+
+                            {% else %}
+
+                                <div
+                                    class="
+                                        rounded-xl
+                                        border
+                                        border-emerald-500/20
+                                        bg-emerald-500/10
+                                        px-4
+                                        py-3
+                                        text-sm
+                                        text-emerald-300
+                                    "
+                                    role="status"
+                                >
+                                    {{ message }}
+                                </div>
+
+                            {% endif %}
 
                         {% endfor %}
 
@@ -244,6 +478,7 @@
                 {% endif %}
 
 
+                <!-- Child Template -->
 
                 {% block content %}
                 {% endblock %}
