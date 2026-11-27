@@ -34,3 +34,6 @@ htmlcov/
 
 # Local Tailwind CLI
 .django_tailwind_cli/
+
+# OAuth / provider credentials
+.secrets/
